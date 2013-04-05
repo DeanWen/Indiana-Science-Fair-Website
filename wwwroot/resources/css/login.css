@@ -1,0 +1,92 @@
+﻿body#login {
+                color: #fff;
+                background: #222 url('../images/bg-login.gif');
+				}
+				
+#login-wrapper {
+                background: url('../images/bg-login-top.png') top left repeat-x;
+				}
+
+#login-wrapper #login-top {
+				width: 100%;
+				padding: 140px 0 50px 0;
+				text-align: center;
+				}
+				
+#login-wrapper #login-content {
+				text-align: center;
+				width: 400px;
+				margin: 0 auto;
+				}
+
+#login-wrapper #login-content label {
+				color: #fff;
+				font-weight: normal;
+				font-size: 14px;
+				font-family: Helvetica, Arial, sans-serif;
+
+
+				padding: 0;
+				}
+								
+#login-wrapper #login-content input {
+				background: #fff;
+				}
+				
+#login-wrapper #login-content p {
+				padding: 0;
+				}
+				
+#login-wrapper #login-content p#remember-password {
+				float: right;
+				}
+				
+#login-wrapper #login-content p#remember-password input {
+				float: none;
+				width: auto;
+				border: 0;
+				background: none;
+				margin: 0 10px 0 0;
+				}
+				
+#login-wrapper #login-content p .button {
+				width: auto;
+				margin-top: 20px;
+				}
+				
+a 
+{
+     color: #57a000; text-decoration: none; 
+     }
+
+.checkbox {
+    float:right;
+}
+
+.button {
+				font-family: Verdana, Arial, sans-serif;
+                display: inline-block;
+                background: #459300 url('../images/bg-button-green.gif') top left repeat-x !important;
+                border: 1px solid #459300 !important;
+                padding: 4px 7px 4px 7px !important;
+                color: #fff !important;
+                font-size: 13px !important;
+                cursor: pointer;
+                width: 200px;
+                }
+                
+.button:hover {
+                text-decoration: underline;
+                }
+                
+.button:active {
+                padding: 5px 7px 3px 7px !important;
+                }
+				
+a.remove-link {
+				color: #bb0000;
+				}
+
+a.remove-link:hover {
+				color: #000;
+				}
