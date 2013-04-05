@@ -112,6 +112,7 @@ public partial class upload : System.Web.UI.Page
                     string sql = "insert into Project values('" + PID + "','" + CID + "','" + GID + "','" + PNAME + "')";
                     SqlCommand comd = new SqlCommand(sql, conn);
                     comd.ExecuteNonQuery();
+                    ProjStatus.Text = "successful";
                 }
                 else if (sender == Stubtn)
                 {
@@ -120,9 +121,12 @@ public partial class upload : System.Web.UI.Page
                     string MNAME = bu.Rows[i]["MNAME"].ToString();
                     string LNAME = bu.Rows[i]["LNAME"].ToString();
                     string PID = bu.Rows[i]["PID"].ToString();
-                    string sql = "insert into Student values('" + SID + "','" + FNAME + "','" + MNAME + "','" + LNAME + "','" + PID + "')";
+                    string School = bu.Rows[i]["SCHOOL"].ToString();
+                    string Age = bu.Rows[i]["AGE"].ToString();
+                    string sql = "insert into Student values('" + SID + "','" + FNAME + "','" + MNAME + "','" + LNAME + "','" + PID + "','" + School + "','" + Age + "')";
                     SqlCommand comd = new SqlCommand(sql, conn);
                     comd.ExecuteNonQuery();
+                    StuStatus.Text = "successful";
 
                 }
                 else if (sender == Judgebtn)
@@ -138,6 +142,7 @@ public partial class upload : System.Web.UI.Page
                     string sql = "insert into judge values('" + jid + "','" + fn + "','" + ln + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
                     SqlCommand comd = new SqlCommand(sql, conn);
                     comd.ExecuteNonQuery();
+                    JudgeStatus.Text = "successful";
                 }
             }
         }
@@ -147,7 +152,7 @@ public partial class upload : System.Web.UI.Page
         }
         finally
         {
-            lbmsg.Text = "successful";
+            
             conn.Close();
         }
 
