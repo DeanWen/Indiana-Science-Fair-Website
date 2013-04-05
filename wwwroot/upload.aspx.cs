@@ -11,20 +11,22 @@ using System.Web.Configuration;
 
 public partial class upload : System.Web.UI.Page
 {
+    static string strcon = "server=edutechservice.com;database=aa_isf_db_dev;uid=isf_db_uname_685219;pwd=isf_db_pwd_685219!";
+    SqlConnection conn = new SqlConnection(strcon);//链接数据库
 
-    private DataTable  xsldata()
+    private DataTable  xsldata(FileUpload fuload,Label lbmsg)
     {
         if(fuload.FileName == "")
         {
-            lbmsg.Text = "请选择文件";
+            lbmsg.Text = "Please Choose Files";
             return null;
         }
         string fileExtenSion;
         fileExtenSion = Path.GetExtension(fuload.FileName);
         if(fileExtenSion.ToLower() != ".xls" && fileExtenSion.ToLower() != ".xlsx")
         {
-            lbmsg.Text = "上传的文件格式不正确";
-            //return null;
+            lbmsg.Text = "Invalid Format";
+            return null;
         }
         try
         {
@@ -55,13 +57,13 @@ public partial class upload : System.Web.UI.Page
             dt.Load(sdr);
             sdr.Close();
             conn.Close();
-            //删除服务器里上传的文件
-            /*            
-                * if(File.Exists(Server.MapPath(FileName)))
-                        {
-                            File.Delete(Server.MapPath(FileName));
-                        }
-            **/
+
+            //删除服务器里上传的文件                      
+            if(File.Exists(Server.MapPath(FileName)))
+                {
+                    File.Delete(Server.MapPath(FileName));
+                }
+       
             return dt;
         }
         catch(Exception e)
@@ -74,46 +76,82 @@ public partial class upload : System.Web.UI.Page
 
     protected void btnFileUpload_Click(object sender, EventArgs e)
     {
+        FileUpload pass = null;
+        Label show = null;
+
+        if (sender == Projbtn)
+        {
+            pass = ProjUpLoad;
+            show = ProjStatus;
+        }
+        else if (sender == Stubtn)
+        {
+            pass = StuUpLoad;
+            show = StuStatus;
+        }
+        else if (sender == Judgebtn)
+        {
+            pass = JudgeUpLoad;
+            show = JudgeStatus;
+        }
 
         try
         {
-
-            DataTable bu = xsldata();
-
-            string strcon = "server=edutechservice.com;database=aa_isf_db_dev;uid=isf_db_uname_685219;pwd=isf_db_pwd_685219!";
-            SqlConnection conn = new SqlConnection(strcon);//链接数据库
+            DataTable bu = xsldata(pass, show);
             conn.Open();
 
             for (int i = 0; i < bu.Rows.Count; i++)
             {
-                /*
-                string Name = bu.Rows[i]["NAME"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
-                string Sex = bu.Rows[i]["SEX"].ToString();
-                string Address = bu.Rows[i]["ADDRESS"].ToString();
-                */
-                string jid = bu.Rows[i]["JID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
-                string fn = bu.Rows[i]["FNAME"].ToString();
-                string ln = bu.Rows[i]["LNAME"].ToString();
-                string ca = bu.Rows[i]["CA"].ToString();
-                string cb = bu.Rows[i]["CB"].ToString();
-                string cc = bu.Rows[i]["CC"].ToString();
-                string cd = bu.Rows[i]["CD"].ToString();
-                string d = bu.Rows[i]["DIVISION"].ToString();
-                string sql = "insert into judge values('" + jid + "','" + fn + "','" + ln + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
 
-                //string sql = "insert into Test values('" + Name + "','" + Sex + "','','" + Address + "')";
-                SqlCommand icm1d = new SqlCommand(sql, conn);
-                icm1d.ExecuteNonQuery();
+                if (sender == Projbtn)
+                {
+                    string PID = bu.Rows[i]["PID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
+                    string CID = bu.Rows[i]["CID"].ToString();
+                    string GID = bu.Rows[i]["GID"].ToString();
+                    string PNAME = bu.Rows[i]["PNAME"].ToString();
+                    string sql = "insert into Project values('" + PID + "','" + CID + "','" + GID + "','" + PNAME + "')";
+                    SqlCommand comd = new SqlCommand(sql, conn);
+                    comd.ExecuteNonQuery();
+                }
+                else if (sender == Stubtn)
+                {
+                    string SID = bu.Rows[i]["SID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
+                    string FNAME = bu.Rows[i]["FNAME"].ToString();
+                    string MNAME = bu.Rows[i]["MNAME"].ToString();
+                    string LNAME = bu.Rows[i]["LNAME"].ToString();
+                    string PID = bu.Rows[i]["PID"].ToString();
+                    string sql = "insert into Student values('" + SID + "','" + FNAME + "','" + MNAME + "','" + LNAME + "','" + PID + "')";
+                    SqlCommand comd = new SqlCommand(sql, conn);
+                    comd.ExecuteNonQuery();
 
+                }
+                else if (sender == Judgebtn)
+                {
+                    string jid = bu.Rows[i]["JID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
+                    string fn = bu.Rows[i]["FNAME"].ToString();
+                    string ln = bu.Rows[i]["LNAME"].ToString();
+                    string ca = bu.Rows[i]["CA"].ToString();
+                    string cb = bu.Rows[i]["CB"].ToString();
+                    string cc = bu.Rows[i]["CC"].ToString();
+                    string cd = bu.Rows[i]["CD"].ToString();
+                    string d = bu.Rows[i]["DIVISION"].ToString();
+                    string sql = "insert into judge values('" + jid + "','" + fn + "','" + ln + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
+                    SqlCommand comd = new SqlCommand(sql, conn);
+                    comd.ExecuteNonQuery();
+                }
             }
-            lbmsg.Text = "successful";
         }
-        catch (Exception ex)
+        catch (Exception err)
         {
-            //lbmsg.Text = "crashed";
+            //LblMsg.Text = "Cannot submit information now. Please try again later.";
         }
-            
+        finally
+        {
+            lbmsg.Text = "successful";
+            conn.Close();
         }
+
+    }
 }
 
 
