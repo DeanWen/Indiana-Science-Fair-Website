@@ -27,7 +27,7 @@ public partial class _Default : System.Web.UI.Page
         {
             getAllStudent();
         }
-
+        
     }
 
     protected void getStudentById(object sender, EventArgs e)

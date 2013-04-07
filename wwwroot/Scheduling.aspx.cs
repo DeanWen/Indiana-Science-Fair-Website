@@ -96,7 +96,7 @@ public partial class _Default : System.Web.UI.Page
      
         string pid = ProjListGrid.SelectedRow.Cells[1].Text;
         string jid = JidTxt.Text;
-        string sql = "insert into assignment values ('90','" + jid + "','" + pid + "','A')";
+        string sql = "insert into assignment values ('n/a','" + jid + "','" + pid + "','A')";
         try
         {
             con.Open();
@@ -115,7 +115,7 @@ public partial class _Default : System.Web.UI.Page
     {
         string pid = RecProj.SelectedRow.Cells[1].Text;
         string jid = JidTxt.Text;
-        string sql = "insert into assignment values ('90','" + jid + "','" + pid + "','A')";
+        string sql = "insert into assignment values ('n/a','" + jid + "','" + pid + "','A')";
         try
         {
             con.Open();

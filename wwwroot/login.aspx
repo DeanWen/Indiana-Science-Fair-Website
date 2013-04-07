@@ -73,13 +73,13 @@
                                 <asp:RegularExpressionValidator ID="checkPWD" runat="server"  ErrorMessage="Incorrect, must be between 6-10 bits letters or numbers ." ControlToValidate="TxtPwd" ValidationExpression="[a-zA-Z0-9]{6,10}" />                                                   
                             </td>
                         </tr>
-                         
+                        <!-- 
                         <tr>
                             <td><asp:Label runat="server"></asp:Label></td>
                             <td>
                                 <asp:CheckBox  runat="server" Text="Remember me" TextAlign=Right/> 
                             </td>
-                        </tr>    
+                        </tr>    -->
                          <tr>
                             <td><asp:Label runat="server"></asp:Label></td>
                             <td>                                  

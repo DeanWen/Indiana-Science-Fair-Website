@@ -25,6 +25,24 @@ public partial class AdminMaster : System.Web.UI.MasterPage
                 Response.Redirect("login.aspx");
             }
         }
+         string thisURL = Request.Url.Segments.Last();
+         switch (thisURL) { 
+             case "ProjList.aspx" :
+                 P.Attributes.Add("class", "nav-top-item current"); 
+                 break;
+             case "Student.aspx":
+                 S.Attributes.Add("class", "nav-top-item current");
+                 break;
+             case "Judge.aspx":
+                 J.Attributes.Add("class", "nav-top-item current");
+                 break;
+             case "Assignment.aspx":
+                 A.Attributes.Add("class", "nav-top-item current");
+                 break;
+             default :
+                 break;                
+         }
+        
     }
 
 

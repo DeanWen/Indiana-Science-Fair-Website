@@ -45,16 +45,12 @@
 
                 <ul id="main-nav">
                     <!-- Accordion Menu -->
-                    <li> <a href="#" class="nav-top-item no-submenu">
-                        <!-- Add the class "no-submenu" to menu items with no sub menu -->
-                        Dashboard </a>
-                    </li>
-                    <li> <a id="P" href="ProjList.aspx" class="nav-top-item no-submenu current">Projects</a></li>
+                    <li ><a id="P" runat="server" href="ProjList.aspx" class="nav-top-item no-submenu">Projects</a></li>
                         <!-- Add the class "current" to current menu item -->     
-                    <li> <a id="J" href="Judge.aspx" class="nav-top-item no-submenu">Judge</a></li>
-                    <li> <a id="S" href="Student.aspx" class="nav-top-item no-submenu">Student</a></li>
-                    <li> <a id="A" href="Assignment.aspx" class="nav-top-item no-submenu">Assignment</a></li>
-                </ul>
+                    <li > <a id="J"  runat="server" href="Judge.aspx" class="nav-top-item no-submenu">Judge</a></li>
+                    <li > <a id="S"  runat="server" href="Student.aspx" class="nav-top-item no-submenu">Student</a></li>
+                    <li > <a id="A"  runat="server" href="Assignment.aspx" class="nav-top-item no-submenu">Assignment</a></li>                   
+              </ul>
                 <!-- End #main-nav -->
 <!--
                 <div id="messages" >
