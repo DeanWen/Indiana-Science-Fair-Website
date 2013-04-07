@@ -8,7 +8,6 @@
     <asp:Label ID="JidMsg" CssClass="form lable" runat="server">Enter Judge ID: </asp:Label>
     <asp:TextBox ID="JidTxt" OnTextChanged="getJudgeById" runat="server"></asp:TextBox>
     <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getJudgeById" />
-    <asp:RequiredFieldValidator ID="RequiredFieldValidator" runat="server" ControlToValidate="JidTxt" ErrorMessage="Required Field" Display="Dynamic">*ID Required</asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="JidTxt" ValidationExpression="[a-zA-Z0-9]{4,10}" />
 
 		
@@ -60,6 +59,12 @@
             <asp:templatefield headertext="CategoryD"><itemtemplate><%#Eval("CategoryD") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox6" runat='server' text='<%#Eval("CategoryD") %>'></asp:textbox>
+           </edititemtemplate>
+            </asp:templatefield>
+
+            <asp:templatefield headertext="Division"><itemtemplate><%#Eval("Division") %> </itemtemplate>
+           <edititemtemplate>
+           <asp:textbox id="textbox7" runat='server' text='<%#Eval("Division") %>'></asp:textbox>
            </edititemtemplate>
             </asp:templatefield>
             

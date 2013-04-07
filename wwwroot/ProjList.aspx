@@ -5,6 +5,10 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+    <asp:Label ID="SidMsg" CssClass="form lable" runat="server">Enter Project ID: </asp:Label>
+    <asp:TextBox ID="SidTxt" OnTextChanged="getProjById" runat="server"></asp:TextBox>
+    <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getProjById" />
+    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits letters or numbers ." ControlToValidate="SidTxt" ValidationExpression="[a-zA-Z0-9]{1,10}" />
 
    <asp:Panel ID="PnlTable" runat="server">
        <asp:GridView ID="ProjListGrid" runat="server"
@@ -45,7 +49,7 @@
                 </itemtemplate>
             </asp:templatefield>
 
-           <asp:templatefield headertext="Project Name"><itemtemplate><%#Eval("PName") %> </itemtemplate>
+           <asp:templatefield headertext="Project Name" ItemStyle-Width="400"><itemtemplate><%#Eval("PName") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox1" runat='server' text='<%#Eval("PName") %>'></asp:textbox>
            </edititemtemplate>

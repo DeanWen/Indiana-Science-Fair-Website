@@ -7,7 +7,6 @@
     <asp:Label ID="SidMsg" CssClass="form lable" runat="server">Enter Student ID: </asp:Label>
     <asp:TextBox ID="SidTxt" OnTextChanged="getStudentById" runat="server"></asp:TextBox>
     <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getStudentById" />
-    <asp:RequiredFieldValidator ID="RequiredFieldValidator" runat="server" ControlToValidate="SidTxt" ErrorMessage="Required Field" Display="Dynamic">*ID Required</asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits letters or numbers ." ControlToValidate="SidTxt" ValidationExpression="[a-zA-Z0-9]{1,10}" />
 
    <asp:Panel ID="PnlTable" runat="server">

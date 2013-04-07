@@ -33,7 +33,7 @@ public partial class _Default : System.Web.UI.Page
     protected void getStudentById(object sender, EventArgs e)
     {
         string studentId = SidTxt.Text;
-        string sql = "select * from Student where SID=" + studentId;
+        string sql = "select * from Student where SID='" + studentId+"'";
         bind(sql);
     }
 

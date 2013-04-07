@@ -27,13 +27,13 @@ public partial class Judge : System.Web.UI.Page
     protected void getJudgeById(object sender, EventArgs e)
     {
         string judgeId = JidTxt.Text;
-        string sql = "select JID, FName, LName, CategoryA, CategoryB, CategoryC, CategoryD from Judge where JID=" + judgeId;
+        string sql = "select * from Judge where JID= '"+ judgeId+"'";
         bind(sql);
     }
 
     protected void getAllJudge()
     {
-        string sql = "select JID, FName, LName, CategoryA, CategoryB, CategoryC, CategoryD from Judge";
+        string sql = "select * from Judge";
         bind(sql);
     }
 
@@ -130,8 +130,9 @@ public partial class Judge : System.Web.UI.Page
         TextBox cb = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox4");
         TextBox cc = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox5");
         TextBox cd = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox6");
+        TextBox d = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox7");
         con.Open();
-        SqlCommand cmd = new SqlCommand("update Judge set FName='" + fn.Text + "',LName='" + ln.Text + "',CategoryA='" + ca.Text + "',Categoryb='" + cb.Text + "',CategoryC='" + cc.Text + "', CategoryD='" + cd.Text + "' where jid='" + jid + "'", con);
+        SqlCommand cmd = new SqlCommand("update Judge set FName='" + fn.Text + "',LName='" + ln.Text + "',CategoryA='" + ca.Text + "',Categoryb='" + cb.Text + "',CategoryC='" + cc.Text + "', CategoryD='" + cd.Text + "', Division='" + d.Text + "'  where jid='" + jid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         Grid1.EditIndex = -1;

@@ -18,15 +18,28 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack) {
-            bind();
+            getAllProj();
         }
 
     }
 
-     protected void bind()
+    protected void getProjById(object sender, EventArgs e)
+    {
+        string projectId = SidTxt.Text;
+        string sql = "select * from ProjList where PID='" + projectId + "'";
+        bind(sql);
+    }
+
+    protected void getAllProj()
+    {
+        string sql = "select * from ProjList";
+        bind(sql);
+    }
+
+     protected void bind(string sql)
      {
       
-         string sql = "select * from PROJLIST";
+         //string sql = "select * from PROJLIST";
          SqlCommand cmd = new SqlCommand(sql, con);
          try
          {
@@ -78,7 +91,7 @@ public partial class _Default : System.Web.UI.Page
 
         // specify the NewPageIndex
         theGrid.PageIndex = newPageIndex;
-        bind();
+        getAllProj();
 
         // rebind the control
         // in this case of retrieving the data using the xxxDataSoucr control,
@@ -87,7 +100,7 @@ public partial class _Default : System.Web.UI.Page
     protected void ProjListGrid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         ProjListGrid.EditIndex = -1;
-        bind();
+        getAllProj();
     }
     protected void ProjListGrid_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
@@ -97,12 +110,12 @@ public partial class _Default : System.Web.UI.Page
         SqlCommand cmd = new SqlCommand("delete from Project where pid='" + pid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
-        bind();
+        getAllProj();
     }
     protected void ProjListGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         ProjListGrid.EditIndex = e.NewEditIndex;
-        bind();
+        getAllProj();
     }
     protected void ProjListGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
@@ -118,7 +131,7 @@ public partial class _Default : System.Web.UI.Page
         int result1 = cmd1.ExecuteNonQuery();
         con.Close();
         ProjListGrid.EditIndex = -1;
-        bind();
+        getAllProj();
 
     }
 }

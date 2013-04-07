@@ -29,8 +29,17 @@ public partial class _Default : System.Web.UI.Page
     {
         string searchBy = SearchArea.SelectedValue;
         string value = SearchTxt.Text;
-        string sql = "select * from Assignment where " + searchBy + "=" + value;
-        bind(sql);
+        if (searchBy == "JID")
+        {
+            string sql = "select * from Assignment where  JID = '" + value+"'";
+            bind(sql);
+        }
+        else if (searchBy == "PID")
+        {
+            string sql = "select * from Assignment where PID ='" + value+"'";
+            bind(sql);
+        }
+       
     }
 
     protected void getAllAssignment()

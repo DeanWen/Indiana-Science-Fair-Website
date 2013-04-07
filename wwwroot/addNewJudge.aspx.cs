@@ -16,11 +16,11 @@ using System.Web.Configuration;
 
 public partial class addNewJudge : System.Web.UI.Page
 {
- 
+    static string cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+    SqlConnection con = new SqlConnection(cs);
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
-        string cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
-        SqlConnection con = new SqlConnection(cs);
+
 
         //always use try/catch for db connecitons
         try
@@ -30,21 +30,20 @@ public partial class addNewJudge : System.Web.UI.Page
             //string Pass = pwd.Text;
             string fname = firstname.Text;
             string lname = lastname.Text;
+            string ca = CategoryA.SelectedItem.Value;
+            string cb = CategoryB.SelectedItem.Value;
+            string cc = CategoryC.SelectedItem.Value;
+            string cd = CategoryD.SelectedItem.Value;
+            string d = Division.SelectedItem.Value;
 
-           // string sql1 = "insert into account values('" + uname + "','" + Pass + "','','','')";
-            string sql2 = "insert into Judge values('" + uname + "','" + fname + "','" + lname + "','BI','CB','EA','EV','S')";
+            string sql2 = "insert into Judge values('" + uname + "','" + fname + "','" + lname + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
 
             con.Open();
 
 
             SqlCommand cmd2 = new SqlCommand(sql2, con);
             cmd2.ExecuteNonQuery();
-
-           // SqlCommand cmd1 = new SqlCommand(sql1, con);
-            //cmd1.ExecuteNonQuery();
-
-
-         
+       
         }
 
         catch (Exception err)
@@ -54,6 +53,7 @@ public partial class addNewJudge : System.Web.UI.Page
         finally //must make sure the connection is properly closed
         { //the finally block will always run whether there is an error or not
             con.Close();
+            Response.Write("<script>alert('Added Succesfully')</script>");
         }
     }
 }
