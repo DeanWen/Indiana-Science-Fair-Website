@@ -69,9 +69,6 @@
             </asp:templatefield>
 
             <asp:templatefield headertext="Division"><itemtemplate><%#Eval("Division") %> </itemtemplate>
-           <edititemtemplate>
-           <asp:textbox id="textbox5" runat='server' text='<%#Eval("Division") %>'></asp:textbox>
-           </edititemtemplate>
             </asp:templatefield>
 
             </Columns>

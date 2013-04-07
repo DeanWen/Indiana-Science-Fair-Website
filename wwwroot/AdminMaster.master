@@ -91,9 +91,9 @@
                 <li><a class="shortcut-button" href="addNewJudge.aspx"><span> <img src="resources/images/icons/pencil_48.png" alt="icon" /><br />
                     Add Judge</span></a></li>
                 <li><a class="shortcut-button" href="addNewAdmin.aspx"><span> <img src="resources/images/icons/gear.png" alt="icon" /><br />
-                    Add admin </span></a></li>
+                    Admin Setting  </span></a></li>
                 <li><a class="shortcut-button" href="upload.aspx" ><span> <img src="resources/images/icons/image_add_48.png" alt="icon" /><br />
-                    Upload </span></a></li>
+                    Upload Data </span></a></li>
             </ul>
             <!-- End .shortcut-buttons-set -->
             <div class="clear"></div>
@@ -113,7 +113,7 @@
                 </div>
 
                 <div id="footer"> 
-                    <small>&#169; Copyright 2013 Indiana Science Fair | Powered by Dean & Sherry </small> 
+                    <medium>&#169; Copyright 2013 Indiana Science Fair | Powered by Dean & Sherry </medium> 
                 </div>
                 <!-- End #footer -->
             </div>

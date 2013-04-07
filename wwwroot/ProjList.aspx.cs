@@ -26,7 +26,7 @@ public partial class _Default : System.Web.UI.Page
      protected void bind()
      {
       
-         string sql = "select PID, PName, CID,FName, GID, DIVISION from PROJLIST";
+         string sql = "select * from PROJLIST";
          SqlCommand cmd = new SqlCommand(sql, con);
          try
          {
@@ -94,7 +94,7 @@ public partial class _Default : System.Web.UI.Page
 
         string pid = ProjListGrid.DataKeys[e.RowIndex].Values["PID"].ToString();
         con.Open();
-        SqlCommand cmd = new SqlCommand("delete from ProjList where pid='" + pid + "'", con);
+        SqlCommand cmd = new SqlCommand("delete from Project where pid='" + pid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         bind();
@@ -111,7 +111,6 @@ public partial class _Default : System.Web.UI.Page
         TextBox cid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox2");
         TextBox fn = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox3");
         TextBox gid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox4");
-        TextBox division = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox5");
         con.Open();
         SqlCommand cmd = new SqlCommand("update Project set PName='" + pn.Text + "',cid='" + cid.Text + "',gid='" + gid.Text + "' where pid='" + pid + "'", con);
         SqlCommand cmd1 = new SqlCommand("update student set FName='" + fn.Text + "' where pid='" + pid + "'", con);
