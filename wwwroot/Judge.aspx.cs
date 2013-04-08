@@ -106,13 +106,27 @@ public partial class Judge : System.Web.UI.Page
 
     protected void Grid1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-       
+        
         string jid = Grid1.DataKeys[e.RowIndex].Values["JID"].ToString();
         con.Open();
-        SqlCommand cmd = new SqlCommand("delete from Judge where jid='"+jid+"'",con);
-        int result = cmd.ExecuteNonQuery();
-        con.Close();
-        getAllJudge();
+        AdminMaster master = (AdminMaster)Page.Master;
+//---------------------------------        
+            SqlCommand cmd0 = new SqlCommand("select count(*) from Assignment where  JID ='"+jid+"'",con);
+            int count = (int)cmd0.ExecuteScalar();
+            if (count != 0)
+            {//uname exisits                
+                master.AlertWarning("Judge already existed in Assignment, Please delete assignment first!");
+            }
+            else
+            {
+                SqlCommand cmd = new SqlCommand("delete from Judge where jid='" + jid + "'", con);
+                int result = cmd.ExecuteNonQuery();
+                con.Close();
+                getAllJudge();
+                master.AlertWarning("Deleted successfully");
+            }
+//-------------------------------       
+
     }
 
     protected void Grid1_RowEditing(object sender, GridViewEditEventArgs e)

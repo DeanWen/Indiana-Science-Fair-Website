@@ -18,16 +18,14 @@ public partial class addNewJudge : System.Web.UI.Page
 {
     static string cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
     SqlConnection con = new SqlConnection(cs);
+    
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
-
-
+        AdminMaster master = (AdminMaster)Page.Master;
         //always use try/catch for db connecitons
         try
         {
-            //check if the email already exist, email must be unique as this is the username
             string uname = username.Text;
-            //string Pass = pwd.Text;
             string fname = firstname.Text;
             string lname = lastname.Text;
             string ca = CategoryA.SelectedItem.Value;
@@ -36,24 +34,41 @@ public partial class addNewJudge : System.Web.UI.Page
             string cd = CategoryD.SelectedItem.Value;
             string d = Division.SelectedItem.Value;
 
-            string sql2 = "insert into Judge values('" + uname + "','" + fname + "','" + lname + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
-
-            con.Open();
-
-
-            SqlCommand cmd2 = new SqlCommand(sql2, con);
-            cmd2.ExecuteNonQuery();
+            var queryCheckUname = "checkJudge";
+            using (con)
+            {
+                using (var cmd = new SqlCommand(queryCheckUname, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Para_uname", SqlDbType.VarChar, 10).Value = uname;
+                    con.Open();
+                    //Process results
+                    int count = (int)cmd.ExecuteScalar();
+                    if (count != 0)
+                    {//uname exisits
+                        master.AlertWarning("Judge already existed!");
+                    }
+                    else
+                    {
+                        string sql2 = "insert into Judge values('" + uname + "','" + fname + "','" + lname + "','" + ca + "','" + cb + "','" + cc + "','" + cd + "','" + d + "')";
+                        //con.Open();
+                        SqlCommand cmd2 = new SqlCommand(sql2, con);
+                        cmd2.ExecuteNonQuery();
+                        master.AlertWarning("Added Succesfully");
+                    }
+                }
+            }
        
         }
 
         catch (Exception err)
-        {
-           
+        {        
         }
         finally //must make sure the connection is properly closed
         { //the finally block will always run whether there is an error or not
-            con.Close();
-            Response.Write("<script>alert('Added Succesfully')</script>");
+            con.Close();           
+            //Response.Write("<script>alert('Added Succesfully')</script>");
         }
     }
+
 }

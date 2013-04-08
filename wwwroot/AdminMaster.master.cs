@@ -25,6 +25,8 @@ public partial class AdminMaster : System.Web.UI.MasterPage
                 Response.Redirect("login.aspx");
             }
         }
+        loginUser.Text ="Welcome User: "+ Session["uname"].ToString();
+
          string thisURL = Request.Url.Segments.Last();
          switch (thisURL) { 
              case "ProjList.aspx" :
@@ -96,4 +98,9 @@ public partial class AdminMaster : System.Web.UI.MasterPage
         Response.Redirect("login.aspx");
     }
 
+    public void AlertWarning(string msg)
+    {
+        notification.Text = msg;
+        panelMessage.Visible = true;
+    }
 }

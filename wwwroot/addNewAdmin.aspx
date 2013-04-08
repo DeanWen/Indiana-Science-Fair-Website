@@ -11,6 +11,7 @@
                 <asp:TextBox ID="username"  MaxLength=20 Height="20" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                     ControlToValidate="username" ErrorMessage="*Required"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="username" ValidationExpression="[a-zA-Z0-9]{4,10}" />
                 <br />
 
                 <asp:Label ID="Label1" runat="server" Width="80px">password: </asp:Label>
@@ -29,7 +30,7 @@
                 <div class="submit">
 		            <asp:Button ID="Button1" class="button"  Visible="true" Text="Add admin" runat="server" onclick="BtnSubmit_Click1" />     
                      &nbsp;&nbsp;&nbsp;&nbsp;       
-                    <asp:CheckBox ID="checkMode" AutoPostBack="true" OnCheckedChanged="checkMode_CheckedChanged" runat="server" TextAlign=Right/>
+                    <asp:CheckBox ID="checkMode" AutoPostBack="true" OnCheckedChanged="checkMode_CheckedChanged" runat="server" TextAlign=Right Checked="false"/>
                     <asp:Label ID="Label3" runat="server">Edit Mode </asp:Label>
 
                 </div>  

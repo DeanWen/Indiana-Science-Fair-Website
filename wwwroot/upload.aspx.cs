@@ -14,6 +14,13 @@ public partial class upload : System.Web.UI.Page
     static string strcon = "server=edutechservice.com;database=aa_isf_db_dev;uid=isf_db_uname_685219;pwd=isf_db_pwd_685219!";
     SqlConnection conn = new SqlConnection(strcon);//链接数据库
 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        AdminMaster master = (AdminMaster)Page.Master;
+        master.Visible = true;
+        master.AlertWarning("Note: Duplicate data might upload unsuccesfully,Please check Spreadsheet again!");
+    }
+
     private DataTable  xsldata(FileUpload fuload,Label lbmsg)
     {
         if(fuload.FileName == "")

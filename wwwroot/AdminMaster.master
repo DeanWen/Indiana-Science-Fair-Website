@@ -40,7 +40,7 @@
                 <a href="Assignment.aspx"><img id="logo" src="resources/images/indexlogo.png" alt="Simpla Admin logo" /></a>
                 <!-- Sidebar Profile links -->
                 <div id="profile-links">              
-                    <a href="#" title="View the Site">View the Site</a> | <a href="login.aspx" title="Log Out" onclick="logout">Log Out</a> 
+                    <asp:Label ID="loginUser" runat="server" Font-Size="small" ></asp:Label> | <a href="login.aspx" title="Log Out" onclick="logout">Log Out</a>
                 </div>
 
                 <ul id="main-nav">
@@ -101,6 +101,14 @@
                     <div class="clear"></div>
                 </div>
                 <!-- End .content-box-header -->
+
+    <asp:Panel ID="panelMessage" runat="server" Visible="false"> 
+        <div id="messagesText" runat="server" class="notification attention png_bg"> <a href="#" class="close"><img src="resources/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
+            <div>
+            <asp:Label ID="notification" Font-Size="Large" runat="server" Text="" />       
+            </div>
+        </div>
+    </asp:Panel>
 
                 <div>
                     <asp:ContentPlaceHolder id="MainContent" runat="server">

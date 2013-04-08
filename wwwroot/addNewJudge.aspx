@@ -17,11 +17,9 @@
                 <asp:TextBox ID="username"  MaxLength=20 runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                     ControlToValidate="username" ErrorMessage="*Required"></asp:RequiredFieldValidator>
-                <br />
+                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="username" ValidationExpression="[a-zA-Z0-9]{4,10}" />               
                </td>
                 
-                <td></td>
-                <td></td>
             <tr>
                <td style="width: 140px">First Name:</td>
                <td style="width: 206px">

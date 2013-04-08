@@ -21,6 +21,7 @@ public partial class newAdmin : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (Session["uname"].ToString() != "10000")
         {
           Response.Write("<script>alert('No Rights,Please Contact Super Admin');window.location.href='ProjList.aspx'</script>");
@@ -55,6 +56,7 @@ public partial class newAdmin : System.Web.UI.Page
 
     protected void BtnSubmit_Click1(object sender, EventArgs e)
     {
+       
         if (checkMode.Checked == true)
         {
             Response.Write("<script>alert('You are in Edit Mode')</script>");
@@ -64,18 +66,40 @@ public partial class newAdmin : System.Web.UI.Page
             //always use try/catch for db connecitons
             try
             {
+                string cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+                SqlConnection con = new SqlConnection(cs);
+
+                AdminMaster master = (AdminMaster)Page.Master;
                 //check if the email already exist, email must be unique as this is the username
                 string uname = username.Text;
                 string RT = right.Text;
                 string mail = email.Text;
 
-                string sql1 = "insert into account values('" + uname + "','" + RT + "','" + mail + "')";
-
-                con.Open();
-
-                SqlCommand cmd1 = new SqlCommand(sql1, con);
-                cmd1.ExecuteNonQuery();
-                Response.Write("<script>alert('Added successful')</script>");
+                var queryCheckUname = "checkUname";
+                using (con)
+                {
+                    using (var cmd = new SqlCommand(queryCheckUname, con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@Para_uname", SqlDbType.VarChar, 10).Value = uname;
+                        con.Open();
+                        //Process results
+                        int count = (int)cmd.ExecuteScalar();
+                        if (count != 0)
+                        {//uname exisits
+                            master.AlertWarning("Admin already existed!");
+                        }
+                        else
+                        {
+                            string sql1 = "insert into account values('" + uname + "','" + RT + "','" + mail + "')";
+                            //con.Open();
+                            SqlCommand cmd1 = new SqlCommand(sql1, con);
+                            cmd1.ExecuteNonQuery();
+                            master.AlertWarning("Added Succesfully");
+                            //Response.Write("<script>alert('Added successful')</script>");
+                        }
+                    }
+                }
 
             }
 
@@ -99,7 +123,6 @@ public partial class newAdmin : System.Web.UI.Page
     }
     protected void admin_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-
         string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString();
         con.Open();
         SqlCommand cmd = new SqlCommand("delete from account where jid='" + jid + "'", con);
@@ -109,14 +132,6 @@ public partial class newAdmin : System.Web.UI.Page
     }
     protected void admin_RowEditing(object sender, GridViewEditEventArgs e)
     {
-      /*  if (checkMode.Checked != true)
-        {
-            Response.Write("<script>alert('Please Enter Edit Mode')</script>");
-        }
-        else
-        {
-        }
-       * */
             admin.EditIndex = e.NewEditIndex;
             bind();
         
@@ -181,8 +196,17 @@ public partial class newAdmin : System.Web.UI.Page
     }
     protected void checkMode_CheckedChanged(object sender, EventArgs e)
     {
-        RequiredFieldValidator3.Enabled = false;
-        RequiredFieldValidator2.Enabled = false;
-        RequiredFieldValidator1.Enabled = false;
+        if (checkMode.Checked != false)
+        {
+            RequiredFieldValidator3.Enabled = false;
+            RequiredFieldValidator2.Enabled = false;
+            RequiredFieldValidator1.Enabled = false;
+        }
+        else
+        {
+            RequiredFieldValidator3.Enabled = true;
+            RequiredFieldValidator2.Enabled = true;
+            RequiredFieldValidator1.Enabled = true;
+        }
     }
 }
