@@ -29,12 +29,14 @@
             <asp:templatefield headertext="First Name"><itemtemplate> <%#Eval("FName") %></itemtemplate> 
             <edititemtemplate>
             <asp:textbox id="textbox1" runat='server' text='<%#Eval("FName") %>'></asp:textbox>
+                 <asp:RegularExpressionValidator ID="textbox1Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z\s]+$" />
             </edititemtemplate>
             </asp:templatefield>
             
             <asp:templatefield headertext="Last Name"><itemtemplate><%#Eval("LName") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox2" runat='server' text='<%#Eval("LName") %>'></asp:textbox>
+               <asp:RegularExpressionValidator ID="textbox02Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox2" ValidationExpression="^[a-zA-Z\s]+$" />
            </edititemtemplate>
             </asp:templatefield>
             
@@ -58,7 +60,7 @@
 
             <asp:templatefield headertext="CategoryD"><itemtemplate><%#Eval("CategoryD") %> </itemtemplate>
            <edititemtemplate>
-           <asp:textbox id="textbox6" runat='server' text='<%#Eval("CategoryD") %>'></asp:textbox>
+           <asp:textbox id="textbox6" runat='server' text='<%#Eval("CategoryD") %>'></asp:textbox> 
            </edititemtemplate>
             </asp:templatefield>
 

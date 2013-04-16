@@ -30,16 +30,32 @@ public partial class AdminMaster : System.Web.UI.MasterPage
          string thisURL = Request.Url.Segments.Last();
          switch (thisURL) { 
              case "ProjList.aspx" :
-                 P.Attributes.Add("class", "nav-top-item current"); 
+                 P.Attributes.Add("class", "nav-top-item current");
+                 dashboardName.Text = "Project List";
                  break;
              case "Student.aspx":
                  S.Attributes.Add("class", "nav-top-item current");
+                 dashboardName.Text = "Student List";
                  break;
              case "Judge.aspx":
                  J.Attributes.Add("class", "nav-top-item current");
+                 dashboardName.Text = "Judge List";
                  break;
              case "Assignment.aspx":
                  A.Attributes.Add("class", "nav-top-item current");
+                 dashboardName.Text = "Assignment List";
+                 break;
+             case "Scheduling.aspx":
+                 dashboardName.Text = "Scheduling Workspace";
+                 break;
+             case "Upload.aspx":
+                 dashboardName.Text = "Upload Workspace";
+                 break;
+             case "addNewJudge.aspx":
+                 dashboardName.Text = "Add New Judge";
+                 break;
+             case "addNewAdmin.aspx":
+                 dashboardName.Text = "Admin Setting";
                  break;
              default :
                  break;                
@@ -101,6 +117,19 @@ public partial class AdminMaster : System.Web.UI.MasterPage
     public void AlertWarning(string msg)
     {
         notification.Text = msg;
+        messagesText.Attributes["class"] = "notification attention png_bg";
+        panelMessage.Visible = true;
+    }
+    public void AlertSuccess(string msg)
+    {
+        notification.Text = msg;
+        messagesText.Attributes["class"] = "notification success png_bg";
+        panelMessage.Visible = true;
+    }
+    public void AlertError(string msg)
+    {
+        notification.Text = msg;
+        messagesText.Attributes["class"] = "notification error png_bg";
         panelMessage.Visible = true;
     }
 }

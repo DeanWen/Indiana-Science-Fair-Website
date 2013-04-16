@@ -87,7 +87,7 @@ public partial class newAdmin : System.Web.UI.Page
                         int count = (int)cmd.ExecuteScalar();
                         if (count != 0)
                         {//uname exisits
-                            master.AlertWarning("Admin already existed!");
+                            master.AlertError("Admin already existed!");
                         }
                         else
                         {
@@ -95,7 +95,7 @@ public partial class newAdmin : System.Web.UI.Page
                             //con.Open();
                             SqlCommand cmd1 = new SqlCommand(sql1, con);
                             cmd1.ExecuteNonQuery();
-                            master.AlertWarning("Added Succesfully");
+                            master.AlertSuccess("Added Succesfully");
                             //Response.Write("<script>alert('Added successful')</script>");
                         }
                     }
@@ -123,24 +123,29 @@ public partial class newAdmin : System.Web.UI.Page
     }
     protected void admin_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
+        AdminMaster master = (AdminMaster)Page.Master;
         string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString();
-        con.Open();
-        SqlCommand cmd = new SqlCommand("delete from account where jid='" + jid + "'", con);
-        int result = cmd.ExecuteNonQuery();
-        con.Close();
-        bind();
+           // Response.Write("<script>alert('" + Session["uname"].ToString() + "')</script>");       
+        if (Session["uname"].ToString() == "10000")
+        {           
+            master.AlertError("You cannot delete yourself");
+        }
+        else
+        {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("delete from account where jid='" + jid + "'", con);
+            int result = cmd.ExecuteNonQuery();
+            con.Close();
+            bind();
+        }
     }
     protected void admin_RowEditing(object sender, GridViewEditEventArgs e)
     {
             admin.EditIndex = e.NewEditIndex;
-            bind();
-        
-        
+            bind();        
     }
     protected void admin_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-
-
         string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString();
         TextBox pwd = (TextBox)admin.Rows[e.RowIndex].FindControl("textbox1");
         TextBox email = (TextBox)admin.Rows[e.RowIndex].FindControl("textbox2");

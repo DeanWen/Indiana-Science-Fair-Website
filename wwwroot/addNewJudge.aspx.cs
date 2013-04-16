@@ -46,7 +46,7 @@ public partial class addNewJudge : System.Web.UI.Page
                     int count = (int)cmd.ExecuteScalar();
                     if (count != 0)
                     {//uname exisits
-                        master.AlertWarning("Judge already existed!");
+                        master.AlertError("Judge already existed!");
                     }
                     else
                     {
@@ -54,7 +54,7 @@ public partial class addNewJudge : System.Web.UI.Page
                         //con.Open();
                         SqlCommand cmd2 = new SqlCommand(sql2, con);
                         cmd2.ExecuteNonQuery();
-                        master.AlertWarning("Added Succesfully");
+                        master.AlertSuccess("Added Succesfully");
                     }
                 }
             }

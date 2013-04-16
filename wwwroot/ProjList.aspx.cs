@@ -116,7 +116,7 @@ public partial class _Default : System.Web.UI.Page
         int count = (int)cmd0.ExecuteScalar();
         if (count != 0)
         {//uname exisits                
-            master.AlertWarning("Project already existed in Assignment, Please delete assignment first!");
+            master.AlertError("Project already existed in Assignment, Please delete assignment first!");
         }
         else 
         {
@@ -124,7 +124,7 @@ public partial class _Default : System.Web.UI.Page
             int count1 = (int)cmd1.ExecuteScalar();
             if (count1 != 0)
             {
-                master.AlertWarning("Project already existed in Student, Please delete assignment first!");
+                master.AlertError("Project already existed in Student, Please delete assignment first!");
             }
             else
             {
@@ -132,7 +132,7 @@ public partial class _Default : System.Web.UI.Page
                 int result = cmd.ExecuteNonQuery();
                 con.Close();
                 getAllProj();
-                master.AlertWarning("Deleted successfully");
+                master.AlertSuccess("Deleted successfully");
             }
         }
     }
@@ -161,8 +161,13 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
-    protected void ProjListGrid_DataBound(object sender, EventArgs e) 
-    {         
-    }
 
+    protected void ProjListGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+       /* foreach (TableCell cell in e.Row.Cells)
+        {
+            cell.Text = cell.Text.Replace(" ", "& nbsp;");
+        }
+        */
+    }
 }

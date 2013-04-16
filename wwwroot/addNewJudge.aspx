@@ -17,7 +17,7 @@
                 <asp:TextBox ID="username"  MaxLength=20 runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
                     ControlToValidate="username" ErrorMessage="*Required"></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="username" ValidationExpression="[a-zA-Z0-9]{4,10}" />               
+                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits numbers ." ControlToValidate="username" ValidationExpression="[0-9]{4,10}" />               
                </td>
                 
             <tr>
@@ -26,7 +26,7 @@
                 <asp:TextBox ID="firstname"  MaxLength=20 runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" 
                     ControlToValidate="firstname" ErrorMessage="*Required"></asp:RequiredFieldValidator>
-                
+                <asp:RegularExpressionValidator ID="firstnameChecker" runat="server" ErrorMessage="Invaild input" ControlToValidate="firstname" ValidationExpression="^[a-zA-Z\s]+$" />
                 </td>
             </tr>
 
@@ -38,7 +38,7 @@
                 <!-- Classes for input-notification: success, error, information, attention -->
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" 
                     ControlToValidate="lastname" ErrorMessage="*Required"></asp:RequiredFieldValidator>
-                
+                <asp:RegularExpressionValidator ID="lastnameChecker" runat="server" ErrorMessage="Invaild input" ControlToValidate="lastname" ValidationExpression="^[a-zA-Z\s]+$" />
                 </td>
             </tr>
 

@@ -28,7 +28,7 @@
         <div class="tab-content default-tab" id="tab1">
             <asp:Panel ID="PnlTable" runat="server">
                 <asp:GridView ID="ProjListGrid" runat="server"
-                   AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="ProjListGrid_SelectedIndexChanged">
                    <Columns>
                         <asp:BoundField DataField="pid" HeaderText="Project ID" SortExpression="pid">

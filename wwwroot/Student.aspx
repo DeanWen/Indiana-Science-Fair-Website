@@ -7,7 +7,7 @@
     <asp:Label ID="SidMsg" CssClass="form lable" runat="server">Enter Student ID: </asp:Label>
     <asp:TextBox ID="SidTxt" OnTextChanged="getStudentById" runat="server"></asp:TextBox>
     <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getStudentById" />
-    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits letters or numbers ." ControlToValidate="SidTxt" ValidationExpression="[a-zA-Z0-9]{1,10}" />
+    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits numbers ." ControlToValidate="SidTxt" ValidationExpression="[0-9]{1,10}" />
 
    <asp:Panel ID="PnlTable" runat="server">
        <asp:GridView ID="StudentGrid" runat="server" AutoGenerateEditButton="true" 
@@ -26,36 +26,42 @@
             <asp:templatefield headertext="First Name" ><itemtemplate> <%#Eval("FName") %></itemtemplate> 
             <edititemtemplate>
             <asp:textbox id="textbox1" runat='server' text='<%#Eval("FName") %>'></asp:textbox>
+                <asp:RegularExpressionValidator ID="textbox1Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z\s]+$" />
             </edititemtemplate>
             </asp:templatefield>
             
                <asp:templatefield headertext="Middle Name"><itemtemplate><%#Eval("MName") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox2" runat='server' text='<%#Eval("MName") %>'></asp:textbox>
+             <asp:RegularExpressionValidator ID="textbox2Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox2" ValidationExpression="^[a-zA-Z\s]+$" />
            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Last Name"><itemtemplate><%#Eval("LName") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox3" runat='server' text='<%#Eval("LName") %>'></asp:textbox>
+               <asp:RegularExpressionValidator ID="textbox3Checker" runat="server" ErrorMessage="Incorrect, must be letters ." ControlToValidate="textbox3" ValidationExpression="^[a-zA-Z\s]+$" />
            </edititemtemplate>
             </asp:templatefield>
             
             <asp:templatefield headertext="Project ID"><itemtemplate><%#Eval("PId") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox4" runat='server' Text='<%#Eval("PId") %>'></asp:textbox>
+               <asp:RegularExpressionValidator ID="textbox4Checker" runat="server" ErrorMessage="Invalid input" ControlToValidate="textbox4" ValidationExpression="[0-9]{0,10}" />
            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="School"><itemtemplate><%#Eval("School") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox5" runat='server' text='<%#Eval("School") %>'></asp:textbox>
+               <asp:RegularExpressionValidator ID="textbox5Checker" runat="server" ErrorMessage="Invalid input." ControlToValidate="textbox5" ValidationExpression="^[a-zA-Z\s]+$" />
            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Age"><itemtemplate><%#Eval("Age") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox6" runat='server' text='<%#Eval("Age") %>'></asp:textbox>
+               <asp:RegularExpressionValidator ID="textbox6Checker" runat="server" ErrorMessage="Incorrect, must be numbers ." ControlToValidate="textbox6" ValidationExpression="[0-9]{0,2}" />
            </edititemtemplate>
             </asp:templatefield>
 
