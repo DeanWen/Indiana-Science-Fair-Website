@@ -155,6 +155,7 @@
             <br />
               <div class="submit">
 		            <asp:Button ID="Button1" class="button"  Visible="true" Text="Add Judge" runat="server" onclick="BtnSubmit_Click" />
+                    <asp:Button ID="Button2" class="button"  Visible="true" Text="Clear" runat="server" OnClientClick="this.form.reset();return false;" />
                 </div>  
             <div class="clear"></div>
             <!-- End .clear -->

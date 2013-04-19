@@ -16,9 +16,7 @@ public partial class upload : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        AdminMaster master = (AdminMaster)Page.Master;
-        master.Visible = true;
-        master.AlertWarning("Note: Duplicate data might upload unsuccesfully,Please check Spreadsheet again!");
+
     }
 
     private DataTable  xsldata(FileUpload fuload,Label lbmsg)

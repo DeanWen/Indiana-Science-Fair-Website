@@ -31,12 +31,12 @@ public partial class _Default : System.Web.UI.Page
         string value = SearchTxt.Text;
         if (searchBy == "JID")
         {
-            string sql = "select * from Assignment where  JID = '" + value+"'";
+            string sql = "select * from AssignmentList where  JID = '" + value + "'";
             bind(sql);
         }
         else if (searchBy == "PID")
         {
-            string sql = "select * from Assignment where PID ='" + value+"'";
+            string sql = "select * from AssignmentList where PID ='" + value + "'";
             bind(sql);
         }
        
@@ -44,7 +44,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void getAllAssignment()
     {
-        string sql = "select * from Assignment";
+        string sql = "select * from AssignmentList";
         bind(sql);
     }
 
@@ -56,6 +56,7 @@ public partial class _Default : System.Web.UI.Page
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             DataTable dt = new DataTable();
+            ViewState["dspage"] = dt;
             dt.Load(reader);
             Grid1.DataSource = dt;
             Grid1.DataBind();
@@ -127,21 +128,108 @@ public partial class _Default : System.Web.UI.Page
     protected void Grid1_RowEditing(object sender, GridViewEditEventArgs e)
     {
         Grid1.EditIndex = e.NewEditIndex;
-        getAllAssignment();
+        this.Grid1.DataSource = (DataTable)ViewState["dspage"];
+        this.Grid1.DataBind();
+        //getAllAssignment();
     }
 
     protected void Grid1_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
+        AdminMaster master = (AdminMaster)Page.Master;
+
         string aid = Grid1.DataKeys[e.RowIndex].Values["AID"].ToString();
-        TextBox fn = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox1");
-        TextBox ln = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
-        TextBox ca = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
-        TextBox cb = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox4");
+
+        TextBox jid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
+        TextBox pid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
+        TextBox periodid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox4");
         con.Open();
-        SqlCommand cmd = new SqlCommand("update assignment set score='" + fn.Text + "',jid='" + ln.Text + "',pid='" + ca.Text + "',periodID='" + cb.Text + "' where aid='" + aid + "'", con);
-        int result = cmd.ExecuteNonQuery();
-        con.Close();
-        Grid1.EditIndex = -1;
-        getAllAssignment();
+        if (checkProject(pid.Text) != 0 && checkJudge(jid.Text) != 0)
+        {
+            SqlCommand cmd = new SqlCommand("update assignment set jid='" + jid.Text + "',pid='" + pid.Text + "',periodID='" + periodid.Text + "' where aid='" + aid + "'", con);
+            int result = cmd.ExecuteNonQuery();
+            con.Close();
+            Grid1.EditIndex = -1;
+            getAllAssignment();
+            master.AlertSuccess("update successfully!");
+        }
     }
+    protected int checkJudge(string j)
+    {
+        AdminMaster master = (AdminMaster)Page.Master;
+        //---------------------------------        
+        SqlCommand cmd0 = new SqlCommand("select count(*) from Judge where  JID ='" + j + "'", con);
+        int count = (int)cmd0.ExecuteScalar();
+        if (count == 0)
+        {//uname not exisits                
+            master.AlertError("Judge doesn't exist!");
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
+    protected int checkProject(string p)
+    {
+        AdminMaster master = (AdminMaster)Page.Master;
+        //---------------------------------        
+        SqlCommand cmd0 = new SqlCommand("select count(*) from Project where  PID ='" + p + "'", con);
+        int count = (int)cmd0.ExecuteScalar();
+        if (count == 0)
+        {//uname not exisits                
+            master.AlertError("Project doesn't exist!");
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
+    protected void PrintAllPages(object sender, EventArgs e)
+    {
+
+        Grid1.AllowPaging = false;
+        this.Grid1.DataSource = (DataTable)ViewState["dspage"];
+        this.Grid1.DataBind();
+        StringWriter sw = new StringWriter();
+        HtmlTextWriter hw = new HtmlTextWriter(sw);
+
+        Grid1.RenderControl(hw);
+        string gridHTML = sw.ToString().Replace("\"", "'")
+            .Replace(System.Environment.NewLine, "");
+        StringBuilder sb = new StringBuilder();
+        sb.Append("<script type = 'text/javascript'>");
+        sb.Append("window.onload = new function(){");
+        sb.Append("var printWin = window.open('', '', 'left=0");
+        sb.Append(",top=0,width=1000,height=600,status=0');");
+        sb.Append("printWin.document.write(\"");
+        sb.Append(gridHTML);
+        sb.Append("\");");
+        sb.Append("printWin.document.close();");
+        sb.Append("printWin.focus();");
+        sb.Append("printWin.print();");
+        sb.Append("printWin.close();};");
+        sb.Append("</script>");
+
+        ClientScript.RegisterStartupScript(this.GetType(), "GridPrint", sb.ToString());
+        Grid1.AllowPaging = true;
+        this.Grid1.DataSource = (DataTable)ViewState["dspage"];
+        this.Grid1.DataBind();
+    }
+
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        return;
+    }
+
+    public void bind2() 
+    {
+        Grid1.AutoGenerateDeleteButton = false;
+        Grid1.AutoGenerateEditButton = false;
+        Grid1.Columns[0].Visible = false;
+    }
+
+
 }

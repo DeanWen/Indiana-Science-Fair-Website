@@ -52,6 +52,7 @@ public partial class _Default : System.Web.UI.Page
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             DataTable dt = new DataTable();
+            ViewState["dspage"] = dt;
             dt.Load(reader);
             StudentGrid.DataSource = dt;
             StudentGrid.DataBind();
@@ -123,7 +124,9 @@ public partial class _Default : System.Web.UI.Page
     protected void StudentGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         StudentGrid.EditIndex = e.NewEditIndex;
-        getAllStudent();
+        this.StudentGrid.DataSource = (DataTable)ViewState["dspage"];
+        this.StudentGrid.DataBind();
+        //getAllStudent();
     }
     protected void StudentGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {

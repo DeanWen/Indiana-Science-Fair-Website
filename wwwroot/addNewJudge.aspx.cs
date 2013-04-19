@@ -55,6 +55,7 @@ public partial class addNewJudge : System.Web.UI.Page
                         SqlCommand cmd2 = new SqlCommand(sql2, con);
                         cmd2.ExecuteNonQuery();
                         master.AlertSuccess("Added Succesfully");
+                        ClearTextBoxes(this.Page);
                     }
                 }
             }
@@ -71,4 +72,26 @@ public partial class addNewJudge : System.Web.UI.Page
         }
     }
 
+    protected void ClearTextBoxes(Control p1)
+    {
+        foreach (Control ctrl in p1.Controls)
+        {
+            if (ctrl is TextBox)
+            {
+                TextBox t = ctrl as TextBox;
+
+                if (t != null)
+                {
+                    t.Text = String.Empty;
+                }
+            }
+            else
+            {
+                if (ctrl.Controls.Count > 0)
+                {
+                    ClearTextBoxes(ctrl);
+                }
+            }
+        }
+    }
 }

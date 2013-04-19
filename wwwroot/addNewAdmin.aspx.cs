@@ -96,8 +96,10 @@ public partial class newAdmin : System.Web.UI.Page
                             SqlCommand cmd1 = new SqlCommand(sql1, con);
                             cmd1.ExecuteNonQuery();
                             master.AlertSuccess("Added Succesfully");
+                            ClearTextBoxes(this.Page);
                             //Response.Write("<script>alert('Added successful')</script>");
                         }
+                        
                     }
                 }
 
@@ -124,9 +126,9 @@ public partial class newAdmin : System.Web.UI.Page
     protected void admin_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
         AdminMaster master = (AdminMaster)Page.Master;
-        string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString();
+        string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString().Trim();
            // Response.Write("<script>alert('" + Session["uname"].ToString() + "')</script>");       
-        if (Session["uname"].ToString() == "10000")
+        if (Session["uname"].ToString().Trim() == jid)
         {           
             master.AlertError("You cannot delete yourself");
         }
@@ -136,16 +138,19 @@ public partial class newAdmin : System.Web.UI.Page
             SqlCommand cmd = new SqlCommand("delete from account where jid='" + jid + "'", con);
             int result = cmd.ExecuteNonQuery();
             con.Close();
+            master.AlertSuccess("Deleted Successfully");
             bind();
         }
     }
     protected void admin_RowEditing(object sender, GridViewEditEventArgs e)
     {
             admin.EditIndex = e.NewEditIndex;
-            bind();        
+            bind();
     }
     protected void admin_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
+         
+        AdminMaster master = (AdminMaster)Page.Master;
         string jid = admin.DataKeys[e.RowIndex].Values["JID"].ToString();
         TextBox pwd = (TextBox)admin.Rows[e.RowIndex].FindControl("textbox1");
         TextBox email = (TextBox)admin.Rows[e.RowIndex].FindControl("textbox2");
@@ -155,6 +160,7 @@ public partial class newAdmin : System.Web.UI.Page
         int result = cmd.ExecuteNonQuery();
         con.Close();
         admin.EditIndex = -1;
+        master.AlertSuccess("Update successfully!");
         bind();
 
     }
@@ -212,6 +218,28 @@ public partial class newAdmin : System.Web.UI.Page
             RequiredFieldValidator3.Enabled = true;
             RequiredFieldValidator2.Enabled = true;
             RequiredFieldValidator1.Enabled = true;
+        }
+    }
+    protected void ClearTextBoxes(Control p1)
+    {
+        foreach (Control ctrl in p1.Controls)
+        {
+            if (ctrl is TextBox)
+            {
+                TextBox t = ctrl as TextBox;
+
+                if (t != null)
+                {
+                    t.Text = String.Empty;
+                }
+            }
+            else
+            {
+                if (ctrl.Controls.Count > 0)
+                {
+                    ClearTextBoxes(ctrl);
+                }
+            }
         }
     }
 }

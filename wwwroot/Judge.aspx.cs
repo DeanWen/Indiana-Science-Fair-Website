@@ -47,6 +47,7 @@ public partial class Judge : System.Web.UI.Page
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             DataTable dt = new DataTable();
+            ViewState["dspage"] = dt;
             dt.Load(reader);
             Grid1.DataSource = dt;
             Grid1.DataBind();
@@ -132,25 +133,128 @@ public partial class Judge : System.Web.UI.Page
     protected void Grid1_RowEditing(object sender, GridViewEditEventArgs e)
     {
        Grid1.EditIndex = e.NewEditIndex;
-       getAllJudge();
+       this.Grid1.DataSource = (DataTable)ViewState["dspage"];
+       this.Grid1.DataBind();
+       //getAllJudge();
     }
 
     protected void Grid1_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
+        AdminMaster master = (AdminMaster)Page.Master;
         string jid = Grid1.DataKeys[e.RowIndex].Values["JID"].ToString();
         TextBox fn = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox1");
         TextBox ln = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
-        TextBox ca = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
-        TextBox cb = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox4");
-        TextBox cc = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox5");
-        TextBox cd = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox6");
-        TextBox d = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox7");
+
+        DropDownList DDLCA = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("CA");
+        DropDownList DDLCB = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("CB");
+        DropDownList DDLCC = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("CC");
+        DropDownList DDLCD = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("CD");
+        DropDownList DDLD = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("D");
+        string ca = DDLCA.SelectedItem.Value;
+        string cb = DDLCB.SelectedItem.Value;
+        string cc = DDLCC.SelectedItem.Value;
+        string cd = DDLCD.SelectedItem.Value;
+        string d = DDLD.SelectedItem.Value;
+
         con.Open();
-        SqlCommand cmd = new SqlCommand("update Judge set FName='" + fn.Text + "',LName='" + ln.Text + "',CategoryA='" + ca.Text + "',Categoryb='" + cb.Text + "',CategoryC='" + cc.Text + "', CategoryD='" + cd.Text + "', Division='" + d.Text + "'  where jid='" + jid + "'", con);
+        SqlCommand cmd = new SqlCommand("update Judge set FName='" + fn.Text.Trim() + "',LName='" + ln.Text.Trim() + "',CategoryA='" + ca + "',Categoryb='" + cb+ "',CategoryC='" + cc + "', CategoryD='" + cd+ "', Division='" + d + "'  where jid='" + jid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         Grid1.EditIndex = -1;
         getAllJudge();
+        master.AlertSuccess("Update successfully");
+    }
+
+    protected void Grid1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+                DropDownList[] ddlSubCategories = new DropDownList[4];
+                 ddlSubCategories[0] =
+                          (DropDownList)e.Row.FindControl("CA");
+                ddlSubCategories[1] =
+          (DropDownList)e.Row.FindControl("CB");
+                ddlSubCategories[2] =
+          (DropDownList)e.Row.FindControl("CC");
+                 ddlSubCategories[3] =
+          (DropDownList)e.Row.FindControl("CD");
+
+                //Bind subcategories data to dropdownlist
+                string[] CategoryName = new string[4];
+                CategoryName[0] = "CategoryA";
+                CategoryName[1] = "CategoryB";
+                CategoryName[2] = "CategoryC";
+                CategoryName[3] = "CategoryD";
+
+              DropDownList  TT = (DropDownList)e.Row.FindControl("D");
+              TT.DataTextField = "Division";
+              TT.DataValueField = "Division";
+              TT.DataSource = RetrieveGrade();
+              TT.DataBind();
+              DataRowView dr1 = e.Row.DataItem as DataRowView;
+              TT.SelectedValue = dr1["Division"].ToString();
+
+                for (int i = 0; i < CategoryName.Count(); i++)
+                {
+                    ddlSubCategories[i].DataTextField = "CategoryName";
+                    ddlSubCategories[i].DataValueField = "CategoryName";
+                    ddlSubCategories[i].DataSource = RetrieveSubCategories();
+                    ddlSubCategories[i].DataBind();
+                    DataRowView dr = e.Row.DataItem as DataRowView;
+                    ddlSubCategories[i].SelectedValue =
+                                 dr[CategoryName[i]].ToString();
+                }
+            }
+        }
+    }
+    private DataTable RetrieveSubCategories()
+    {
+        //fetch the connection string from web.config
+        string connString =
+                WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+        //SQL statement to fetch entries from products
+        string sql = @"Select CID as CategoryName
+                from Category";
+        DataTable dtSubCategories = new DataTable();
+        //Open SQL Connection
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            conn.Open();
+            //Initialize command object
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //Fill the result set
+                adapter.Fill(dtSubCategories);
+            }
+        }
+        return dtSubCategories;
+    }
+
+    private DataTable RetrieveGrade()
+    {
+        //fetch the connection string from web.config
+        string connString =
+                WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+        //SQL statement to fetch entries from products
+        string sql = @"Select Division 
+                from Grade_Level";
+        DataTable dtSubCategories = new DataTable();
+        //Open SQL Connection
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            conn.Open();
+            //Initialize command object
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //Fill the result set
+                adapter.Fill(dtSubCategories);
+            }
+        }
+        return dtSubCategories;
     }
 
 }

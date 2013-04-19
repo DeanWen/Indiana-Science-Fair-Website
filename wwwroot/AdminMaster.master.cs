@@ -25,6 +25,7 @@ public partial class AdminMaster : System.Web.UI.MasterPage
                 Response.Redirect("login.aspx");
             }
         }
+        panelMessage.Visible = false;
         loginUser.Text ="Welcome User: "+ Session["uname"].ToString();
 
          string thisURL = Request.Url.Segments.Last();
@@ -48,8 +49,9 @@ public partial class AdminMaster : System.Web.UI.MasterPage
              case "Scheduling.aspx":
                  dashboardName.Text = "Scheduling Workspace";
                  break;
-             case "Upload.aspx":
+             case "upload.aspx":
                  dashboardName.Text = "Upload Workspace";
+                 AlertWarning("Note: Duplicate data might upload unsuccesfully,Please check Spreadsheet again!");
                  break;
              case "addNewJudge.aspx":
                  dashboardName.Text = "Add New Judge";

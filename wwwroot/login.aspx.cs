@@ -57,7 +57,7 @@ public partial class login : System.Web.UI.Page
                         int thisCount1 = (int)cmd1.ExecuteScalar();
                         if (thisCount1 != 0) 
                         {//matched
-                             System.Web.HttpContext.Current.Session["uname"] = uname; 
+                             System.Web.HttpContext.Current.Session["uname"] = uname;                            
                              Response.Redirect("ProjList.aspx?user=" + uname, true);
                                 conn.Close();
                                 

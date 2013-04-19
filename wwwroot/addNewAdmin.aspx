@@ -14,25 +14,29 @@
                 <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="username" ValidationExpression="[a-zA-Z0-9]{4,10}" />
                 <br />
 
-                <asp:Label ID="Label1" runat="server" Width="80px">password: </asp:Label>
+                <asp:Label ID="Label1" runat="server" Width="80px">Password: </asp:Label>
                 <asp:TextBox ID="right"  TextMode="Password"  MaxLength=20 Height="20" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="right" runat="server" ErrorMessage="Required Field">*Required</asp:RequiredFieldValidator> 
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ErrorMessage="Invalid, must be between 4-10 bits letters or numbers ." ControlToValidate="right" ValidationExpression="[a-zA-Z0-9]{4,10}" />
                 <br />
-                <asp:Label ID="Label2" runat="server" Width="80px">Emails: </asp:Label>
+
+                <asp:Label ID="Label2" runat="server" Width="80px">Email: </asp:Label>
                 <asp:TextBox ID="email" MaxLength = "50"  width="300" Height="20" Text="" runat="server"  Font-Size="12"></asp:TextBox>
 			                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="email" ErrorMessage="Required Field" Display="Dynamic">*Required</asp:RequiredFieldValidator>
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" 
-                                        ErrorMessage="RegularExpressionValidator" BorderStyle="None" ControlToValidate="email">*Not an Email format</asp:RegularExpressionValidator>                                                   
+                                        ErrorMessage="RegularExpressionValidator" BorderStyle="None" ControlToValidate="email">Not an Email format</asp:RegularExpressionValidator>                                                   
                 <br />
 
             </p> 
                               
-                <div class="submit">
-		            <asp:Button ID="Button1" class="button"  Visible="true" Text="Add admin" runat="server" onclick="BtnSubmit_Click1" />     
+                <div>
+                    &nbsp;&nbsp;&nbsp;&nbsp; 
+		            <asp:Button ID="Button1" class="button"  Visible="true" Text="Add admin" runat="server" onclick="BtnSubmit_Click1" /> 
+                    &nbsp;&nbsp;&nbsp;&nbsp; 
+                    <asp:Button ID="Button2" class="button"  Visible="true" Text="Clear" runat="server" OnClientClick="this.form.reset();return false;" />     
                      &nbsp;&nbsp;&nbsp;&nbsp;       
                     <asp:CheckBox ID="checkMode" AutoPostBack="true" OnCheckedChanged="checkMode_CheckedChanged" runat="server" TextAlign=Right Checked="false"/>
                     <asp:Label ID="Label3" runat="server">Edit Mode </asp:Label>
-
                 </div>  
                                 
             <div class="clear"></div>

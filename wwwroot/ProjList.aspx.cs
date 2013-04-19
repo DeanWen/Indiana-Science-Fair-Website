@@ -13,12 +13,15 @@ using System.Web.Configuration;
 
 public partial class _Default : System.Web.UI.Page
 {
+
     static string cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
     SqlConnection con = new SqlConnection(cs);
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack) {
+        if (!IsPostBack)
+        {
             getAllProj();
+
         }
 
     }
@@ -36,30 +39,29 @@ public partial class _Default : System.Web.UI.Page
         bind(sql);
     }
 
-     protected void bind(string sql)
-     {
-      
-         //string sql = "select * from PROJLIST";
-         SqlCommand cmd = new SqlCommand(sql, con);
-         try
-         {
-             con.Open();
-             
-             SqlDataReader reader = cmd.ExecuteReader();
-             DataTable dt = new DataTable();
-             dt.Load(reader);
-             ProjListGrid.DataSource = dt;
-             ProjListGrid.DataBind();
-            
+    protected void bind(string sql)
+    {
 
-         }
-         finally
-         {
-             con.Close();
-         }
+        //string sql = "select * from PROJLIST";
+        SqlCommand cmd = new SqlCommand(sql, con);
+        try
+        {
+            con.Open();
 
-     }
-     
+            SqlDataReader reader = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            ViewState["dspage"] = dt;
+            dt.Load(reader);
+            ProjListGrid.DataSource = dt;
+            ProjListGrid.DataBind();
+        }
+        finally
+        {
+            con.Close();
+        }
+
+    }
+
 
     protected void PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
@@ -111,16 +113,16 @@ public partial class _Default : System.Web.UI.Page
         con.Open();
 
         AdminMaster master = (AdminMaster)Page.Master;
-//---------------------------------        
-        SqlCommand cmd0 = new SqlCommand("select count(*) from Assignment where  PID ='"+pid+"'",con);
+        //---------------------------------        
+        SqlCommand cmd0 = new SqlCommand("select count(*) from Assignment where  PID ='" + pid + "'", con);
         int count = (int)cmd0.ExecuteScalar();
         if (count != 0)
         {//uname exisits                
             master.AlertError("Project already existed in Assignment, Please delete assignment first!");
         }
-        else 
+        else
         {
-            SqlCommand cmd1 = new SqlCommand("select count(*) from student where  PID ='"+pid+"'",con);
+            SqlCommand cmd1 = new SqlCommand("select count(*) from student where  PID ='" + pid + "'", con);
             int count1 = (int)cmd1.ExecuteScalar();
             if (count1 != 0)
             {
@@ -139,7 +141,9 @@ public partial class _Default : System.Web.UI.Page
     protected void ProjListGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         ProjListGrid.EditIndex = e.NewEditIndex;
-        getAllProj();
+        this.ProjListGrid.DataSource = (DataTable)ViewState["dspage"];
+        this.ProjListGrid.DataBind();
+        //getAllProj();
     }
     protected void ProjListGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
@@ -158,16 +162,55 @@ public partial class _Default : System.Web.UI.Page
         con.Close();
         ProjListGrid.EditIndex = -1;
         getAllProj();
+        AdminMaster master = (AdminMaster)Page.Master;
+        master.AlertSuccess("Update successfully");
 
+    }
+   
+    private DataTable RetrieveSubCategories()
+    {
+        //fetch the connection string from web.config
+        string connString =
+                WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+        //SQL statement to fetch entries from products
+        string sql = @"Select CID as CategoryName
+                from Category";
+        DataTable dtSubCategories = new DataTable();
+        //Open SQL Connection
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            conn.Open();
+            //Initialize command object
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //Fill the result set
+                adapter.Fill(dtSubCategories);
+            }
+        }
+        return dtSubCategories;
     }
 
 
     protected void ProjListGrid_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-       /* foreach (TableCell cell in e.Row.Cells)
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            cell.Text = cell.Text.Replace(" ", "& nbsp;");
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+
+                DropDownList ddlSubCategories =
+                          (DropDownList)e.Row.FindControl("CA");
+                //Bind subcategories data to dropdownlist
+                ddlSubCategories.DataTextField = "CategoryName";
+                ddlSubCategories.DataValueField = "CategoryName";
+                ddlSubCategories.DataSource = RetrieveSubCategories();
+                ddlSubCategories.DataBind();
+                DataRowView dr = e.Row.DataItem as DataRowView;
+                ddlSubCategories.SelectedValue =
+                             dr["cid"].ToString();
+            }
         }
-        */
+        
     }
 }
