@@ -93,7 +93,13 @@ public class projDB
                 reader1.Close();
                 project pj = new project((string)reader["PID"], (string)MyToString(reader["PName"]), (string)MyToString(reader["CID"]), 
                     (string)MyToString(reader["FName"]), (string)MyToString(reader["GID"]), (string)MyToString(reader["DIVISION"]), (int)(reader["Time"]), projAvail);
-                Projects.Add(pj);
+                string sql2 = "select count(*) from Assignment where JID = " + jid + " and PID = " + (string)reader["PID"];
+                SqlCommand cmd2 = new SqlCommand(sql2, con);
+                int count = (int)cmd2.ExecuteScalar();
+                if(count == 0)
+                {
+                    Projects.Add(pj);
+                }                
             }
             reader.Close();
             return Projects;

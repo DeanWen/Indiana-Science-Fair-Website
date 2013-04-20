@@ -17,16 +17,12 @@ public partial class _Default : System.Web.UI.Page
     SqlConnection con = new SqlConnection(cs);
     protected void Page_Load(object sender, EventArgs e)
     {
-//        if (!IsPostBack)
-//        {
-            getPjByJid();
- //       }
- //       ProjListGrid.DataBind();
- /*       if (!IsPostBack)
-        {
-           // bind();
-        }
-*/
+        getPjByJid();
+    }
+
+    protected void submitBtnClick(object sender, EventArgs e)
+    {
+        getPjByJid();
     }
 
     /*    protected void bind()
@@ -194,10 +190,12 @@ public partial class _Default : System.Web.UI.Page
             //            int count = (int)cmd.ExecuteScalar();
             SqlCommand cmd1 = new SqlCommand(sql, con);
             cmd1.ExecuteNonQuery();
+            getPjByJid();
         }
         finally
         {
-            Response.Write("<script>alert('Added successful!');</script>");
+            AdminMaster master = (AdminMaster)Page.Master;
+            master.AlertSuccess("Added successfully");
             con.Close();
         }
     }

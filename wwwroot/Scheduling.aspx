@@ -10,6 +10,7 @@
                 <td>
                     <asp:Label ID="JidMsg" CssClass="form lable" runat="server">Enter Judge ID: </asp:Label>
                     <asp:TextBox ID="JidTxt" runat="server"></asp:TextBox>
+                    <asp:Button ID="submit" class="button"  Visible="true" Text="Submit" runat="server" onclick="submitBtnClick"/>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator" runat="server" ControlToValidate="JidTxt" ErrorMessage="Required Field" Display="Dynamic">*ID Required</asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="JidTxt" ValidationExpression="[a-zA-Z0-9]{4,10}" />
                 </td>
@@ -84,7 +85,7 @@
             <asp:ObjectDataSource ID="recommendList" runat="server" TypeName = "projDB" SelectMethod = "recommendProjById">
             </asp:ObjectDataSource>
             <asp:Panel ID="Panel1" runat="server">
-                <asp:GridView ID="RecProjGrid" runat="server"
+                <asp:GridView ID="RecProjGrid" runat="server" 
                    AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="RecProj_SelectedIndexChanged">
                    <Columns>

@@ -117,8 +117,23 @@ public partial class _Default : System.Web.UI.Page
     {
 
         string aid = Grid1.DataKeys[e.RowIndex].Values["AID"].ToString();
+        //TextBox tperiod = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox1");
+        //TextBox tjid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
+        //TextBox tpid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
+
+        string period = Grid1.DataKeys[e.RowIndex].Values["periodID"].ToString(); ;
+        string jid = Grid1.DataKeys[e.RowIndex].Values["JudgeID"].ToString(); ;
+        string pid = Grid1.DataKeys[e.RowIndex].Values["ProjectID"].ToString(); ;
+
+        string sql1 = "delete from Assignment where aid='" + aid + "'";
+        string sql2 = "insert into Availability values ('"+jid+"','"+period+"')";
+        string sql3 = "insert into ProjectAvailability values ('" + pid + "','" + period + "')";
+        string sql4 = "update Project set Time = Time + 1 where PID = " + pid;
+        string sql = sql1 + ";" + sql2 + ";" + sql3 + ";" + sql4;
+
         con.Open();
-        SqlCommand cmd = new SqlCommand("delete from Assignment where aid='" + aid + "'", con);
+        //SqlCommand cmd = new SqlCommand("delete from Assignment where aid='" + aid + "'", con);
+        SqlCommand cmd = new SqlCommand(sql, con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         getAllAssignment();
