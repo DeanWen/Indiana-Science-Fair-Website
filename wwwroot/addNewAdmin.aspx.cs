@@ -21,8 +21,11 @@ public partial class newAdmin : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        if (Session["uname"].ToString().Trim() != "10000")
+        if (Session["uname"]== null)
+        {
+            Response.Redirect("login.aspx");
+        }
+        else if (Session["uname"].ToString().Trim() != "10000")
         {
           Response.Write("<script>alert('No Rights,Please Contact Super Admin');window.location.href='ProjList.aspx'</script>");
         }
