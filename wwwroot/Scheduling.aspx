@@ -32,10 +32,10 @@
             </asp:ObjectDataSource> 
             <asp:Panel ID="PnlTable" runat="server">
                 <asp:GridView ID="ProjListGrid" runat="server" DataDourceID="pjList"
-                   AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" OnSelectedIndexChanged="ProjListGrid_SelectedIndexChanged">
                    <Columns>
-                        <asp:BoundField DataField="PID" HeaderText="Project ID" SortExpression="pid">
+                        <asp:BoundField DataField="PID" HeaderText="Project ID">
                         </asp:BoundField>
                         <asp:BoundField DataField="PName" HeaderText="Project Name">
                         </asp:BoundField>
@@ -86,7 +86,7 @@
             </asp:ObjectDataSource>
             <asp:Panel ID="Panel1" runat="server">
                 <asp:GridView ID="RecProjGrid" runat="server" 
-                   AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="RecProj_SelectedIndexChanged">
                    <Columns>
                         <asp:BoundField DataField="PID" HeaderText="Project ID">
@@ -103,7 +103,7 @@
                         </asp:BoundField>
                         <asp:BoundField DataField="Times" HeaderText="Times">
                         </asp:BoundField>
-                        <asp:BoundField DataField="Weight" HeaderText="Weight" SortExpression="Weight">
+                        <asp:BoundField DataField="Weight" HeaderText="Weight">
                         </asp:BoundField>
                     </Columns>
 
