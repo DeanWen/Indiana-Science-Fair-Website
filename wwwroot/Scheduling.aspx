@@ -9,7 +9,7 @@
             <tr>
                 <td>
                     <asp:Label ID="JidMsg" CssClass="form lable" runat="server">Enter Judge ID: </asp:Label>
-                    <asp:TextBox ID="JidTxt" OnTextChanged="getPjByJid" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="JidTxt" runat="server"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator" runat="server" ControlToValidate="JidTxt" ErrorMessage="Required Field" Display="Dynamic">*ID Required</asp:RequiredFieldValidator>
                     <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="JidTxt" ValidationExpression="[a-zA-Z0-9]{4,10}" />
                 </td>
@@ -25,106 +25,120 @@
         <div class="clear"></div>
     </div>
     <div class="content-box-content">
+
         <div class="tab-content default-tab" id="tab1">
+            <asp:ObjectDataSource ID="pjList" runat="server" TypeName = "projDB" SelectMethod = "getAllProjByJid" >
+            </asp:ObjectDataSource> 
             <asp:Panel ID="PnlTable" runat="server">
-                <asp:GridView ID="ProjListGrid" runat="server"
-                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
-                   AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="ProjListGrid_SelectedIndexChanged">
+                <asp:GridView ID="ProjListGrid" runat="server" DataDourceID="pjList"
+                   AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                   AllowPaging="True" OnPageIndexChanging="PageIndexChanging" OnSelectedIndexChanged="ProjListGrid_SelectedIndexChanged">
                    <Columns>
-                        <asp:BoundField DataField="pid" HeaderText="Project ID" SortExpression="pid">
+                        <asp:BoundField DataField="PID" HeaderText="Project ID" SortExpression="pid">
                         </asp:BoundField>
-                        <asp:BoundField DataField="pname" HeaderText="Project Name">
+                        <asp:BoundField DataField="PName" HeaderText="Project Name">
                         </asp:BoundField>
-                        <asp:BoundField DataField="cid" HeaderText="Category">                  
+                        <asp:BoundField DataField="CID" HeaderText="Category">                  
                         </asp:BoundField>      
                         <asp:BoundField DataField="FName" HeaderText="Student">
                         </asp:BoundField>
-                        <asp:BoundField DataField="gid" HeaderText="Grade">
+                        <asp:BoundField DataField="GID" HeaderText="Grade">
                         </asp:BoundField>
-                        <asp:BoundField DataField="division" HeaderText="division">
+                        <asp:BoundField DataField="Division" HeaderText="Division">
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Times" HeaderText="Times">
                         </asp:BoundField>
                     </Columns>
+
+                    <PagerTemplate>
+                        <table align="right" bgcolor="#e9e9e9" width="100%">
+                            <tr>
+                                <td style="text-align: right">
+                                    Page <b><asp:Label ID="lblPageIndex" runat="server" Text="<%#((GridView)Container.Parent.Parent).PageIndex + 1 %>"></asp:Label></b>
+                                    of <b><asp:Label ID="lblPageCount" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageCount %>"></asp:Label></b>
+                                    <asp:LinkButton ID="btnFirst" runat="server" CausesValidation="False" CommandArgument="First"
+                                        CommandName="Page" Enabled="<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                        Text="First  "></asp:LinkButton>
+                                    <asp:LinkButton ID="btnPrev" runat="server" CausesValidation="False" CommandArgument="Prev"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                        Text="<< Previous  "></asp:LinkButton>
+                                    <asp:LinkButton ID="btnNext" runat="server" CausesValidation="False" CommandArgument="Next"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                        Text="  Next >>"></asp:LinkButton>
+                                    <asp:LinkButton ID="btnLast" runat="server" CausesValidation="False" CommandArgument="Last"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                        Text="  Last"></asp:LinkButton>
+                                    <asp:TextBox ID="txtNewPageIndex" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageIndex + 1%>"
+                                        Width="20px"></asp:TextBox>
+                                    <asp:LinkButton ID="btnGo" runat="server" CausesValidation="false" CommandArgument="-1"
+                                        CommandName="Page" Text="GO"></asp:LinkButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </PagerTemplate>
                </asp:GridView>
             </asp:Panel>
         </div>
+
         <div class="tab-content" id="tab2">
+            <asp:ObjectDataSource ID="recommendList" runat="server" TypeName = "projDB" SelectMethod = "recommendProjById">
+            </asp:ObjectDataSource>
             <asp:Panel ID="Panel1" runat="server">
-                <asp:GridView ID="RecProj" runat="server"
+                <asp:GridView ID="RecProjGrid" runat="server"
                    AllowSorting="True" AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="RecProj_SelectedIndexChanged">
                    <Columns>
-                        <asp:BoundField DataField="pid" HeaderText="Project ID" SortExpression="pid">
+                        <asp:BoundField DataField="PID" HeaderText="Project ID">
                         </asp:BoundField>
-                        <asp:BoundField DataField="pname" HeaderText="Project Name">
+                        <asp:BoundField DataField="PName" HeaderText="Project Name">
                         </asp:BoundField>
-                        <asp:BoundField DataField="cid" HeaderText="Category">                  
+                        <asp:BoundField DataField="CID" HeaderText="Category">                  
                         </asp:BoundField>      
                         <asp:BoundField DataField="FName" HeaderText="Student">
                         </asp:BoundField>
-                        <asp:BoundField DataField="gid" HeaderText="Grade">
+                        <asp:BoundField DataField="GID" HeaderText="Grade">
                         </asp:BoundField>
-                        <asp:BoundField DataField="division" HeaderText="Division">
+                        <asp:BoundField DataField="Division" HeaderText="Division">                        
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Times" HeaderText="Times">
+                        </asp:BoundField>
+                        <asp:BoundField DataField="Weight" HeaderText="Weight" SortExpression="Weight">
                         </asp:BoundField>
                     </Columns>
+
+                    <PagerTemplate>
+                        <table align="right" bgcolor="#e9e9e9" width="100%">
+                            <tr>
+                                <td style="text-align: right">
+                                    Page <b><asp:Label ID="lblPageIndex" runat="server" Text="<%#((GridView)Container.Parent.Parent).PageIndex + 1 %>"></asp:Label></b>
+                                    of <b><asp:Label ID="lblPageCount" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageCount %>"></asp:Label></b>
+                                    <asp:LinkButton ID="btnFirst" runat="server" CausesValidation="False" CommandArgument="First"
+                                        CommandName="Page" Enabled="<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                        Text="First  "></asp:LinkButton>
+                                    <asp:LinkButton ID="btnPrev" runat="server" CausesValidation="False" CommandArgument="Prev"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                        Text="<< Previous  "></asp:LinkButton>
+                                    <asp:LinkButton ID="btnNext" runat="server" CausesValidation="False" CommandArgument="Next"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                        Text="  Next >>"></asp:LinkButton>
+                                    <asp:LinkButton ID="btnLast" runat="server" CausesValidation="False" CommandArgument="Last"
+                                        CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                        Text="  Last"></asp:LinkButton>
+                                    <asp:TextBox ID="txtNewPageIndex" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageIndex + 1%>"
+                                        Width="20px"></asp:TextBox>
+                                    <asp:LinkButton ID="btnGo" runat="server" CausesValidation="false" CommandArgument="-1"
+                                        CommandName="Page" Text="GO"></asp:LinkButton>
+                                </td>
+                            </tr>
+                        </table>
+                    </PagerTemplate>
                </asp:GridView>
             </asp:Panel>
         </div>
     </div>
+     
 
 <!--
-    <table>
-        <thead>
-            <tr>
-                <th>Projest ID</th>
-                <th>Project Name</th>
-                <th>Category</th>
-                <th>Division</th>
-                <th>Student</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>100</td>
-                <td>Space vs. No Space: Competition for Oviposition Sites in Bean </td>
-                <td>AS</td>
-                <td>J</td>
-                <td>Adam Zaher</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>101</td>
-                <td>What Effect Does Temperature Have on Yeast Rising?</td>
-                <td>CB</td>
-                <td>J</td>
-                <td>Alainna Wright</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>102</td>
-                <td>How Much Shake Will It Take?</td>
-                <td>EN</td>
-                <td>J</td>
-                <td>Anthea Weng</td>
-                <td>7</td>
-            </tr>
-            <tr>
-                <td>103</td>
-                <td>Does the color of the food affect the taste?</td>
-                <td>EV</td>
-                <td>J</td>
-                <td>Anthony Weng</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>104</td>
-                <td>Phalanges</td>
-                <td>ME</td>
-                <td>J</td>
-                <td>Ashley Turner</td>
-                <td>7</td>
-            </tr>
-        </tbody>
         <tfoot>
             <tr>
                 <td colspan="6">
