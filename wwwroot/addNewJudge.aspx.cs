@@ -25,9 +25,9 @@ public partial class addNewJudge : System.Web.UI.Page
         //always use try/catch for db connecitons
         try
         {
-            string uname = username.Text;
-            string fname = firstname.Text;
-            string lname = lastname.Text;
+            string uname = username.Text.Trim();
+            string fname = firstname.Text.Trim();
+            string lname = lastname.Text.Trim();
             string ca = CategoryA.SelectedItem.Value;
             string cb = CategoryB.SelectedItem.Value;
             string cc = CategoryC.SelectedItem.Value;

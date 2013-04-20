@@ -52,24 +52,7 @@
                     <li > <a id="A"  runat="server" href="Assignment.aspx" class="nav-top-item no-submenu">Assignment</a></li>                   
               </ul>
                 <!-- End #main-nav -->
-<!--
-                <div id="messages" >
-                    
-                    <h3>Please Enter the Judge ID</h3>
-                   
-                    <form action="Scheduling.aspx" method="post"> 
-                        <asp:Label  id="LblMsg2" Height="20px" Font-Size="18px" ForeColor="Orange" runat="server" Width="367px"/>
-                        <div class="text-input">
-			                <asp:TextBox ID="TxtEm" MaxLength = "50"  width="300" Height="20" Text="" runat="server"  Font-Size="12"></asp:TextBox><br />
-                        </div>
-                        <br />
-                        <div class="submit">
-		                <asp:Button ID="Button1" class="button"  Visible="true" Text="Submit" runat="server" onclick="BtnSubmit_Click" />
-                        </div>
-                    </form>		                                                         
-                </div>
-                -->
-                <!-- End #judgeLogin-->
+
 
             </div>
         </div> 

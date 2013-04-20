@@ -126,7 +126,7 @@ public partial class _Default : System.Web.UI.Page
             int count1 = (int)cmd1.ExecuteScalar();
             if (count1 != 0)
             {
-                master.AlertError("Project already existed in Student, Please delete assignment first!");
+                master.AlertError("Project already existed in Student, Please Modify/Remove from student first!");
             }
             else
             {
@@ -153,10 +153,13 @@ public partial class _Default : System.Web.UI.Page
         string cid = aa.SelectedItem.Value;
         //TextBox cid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox2");
         TextBox fn = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox3");
-        TextBox gid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox4");
+        //TextBox gid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox4");
+        DropDownList ddlgid = (DropDownList)ProjListGrid.Rows[e.RowIndex].FindControl("Grade");
+        string gid = ddlgid.SelectedItem.Value;
+
         con.Open();
-        SqlCommand cmd = new SqlCommand("update Project set PName='" + pn.Text + "',cid='" + cid + "',gid='" + gid.Text + "' where pid='" + pid + "'", con);
-        SqlCommand cmd1 = new SqlCommand("update student set FName='" + fn.Text + "' where pid='" + pid + "'", con);
+        SqlCommand cmd = new SqlCommand("update Project set PName='" + pn.Text.Trim() + "',cid='" + cid + "',gid='" + gid +"' where pid='" + pid + "'", con);
+        SqlCommand cmd1 = new SqlCommand("update student set FName='" + fn.Text.Trim() + "' where pid='" + pid + "'", con);
         int result = cmd.ExecuteNonQuery();
         int result1 = cmd1.ExecuteNonQuery();
         con.Close();
@@ -191,6 +194,30 @@ public partial class _Default : System.Web.UI.Page
         return dtSubCategories;
     }
 
+    private DataTable RetrieveGrade()
+    {
+        //fetch the connection string from web.config
+        string connString =
+                WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+        //SQL statement to fetch entries from products
+        string sql = @"Select gid as grade
+                from Grade_Level";
+        DataTable dtSubCategories = new DataTable();
+        //Open SQL Connection
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            conn.Open();
+            //Initialize command object
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //Fill the result set
+                adapter.Fill(dtSubCategories);
+            }
+        }
+        return dtSubCategories;
+    }
+
 
     protected void ProjListGrid_RowDataBound(object sender, GridViewRowEventArgs e)
     {
@@ -209,6 +236,14 @@ public partial class _Default : System.Web.UI.Page
                 DataRowView dr = e.Row.DataItem as DataRowView;
                 ddlSubCategories.SelectedValue =
                              dr["cid"].ToString();
+
+                DropDownList TTl = (DropDownList)e.Row.FindControl("Grade");
+                TTl.DataTextField = "grade";
+                TTl.DataValueField = "grade";
+                TTl.DataSource = RetrieveGrade();
+                TTl.DataBind();
+                DataRowView dr1 = e.Row.DataItem as DataRowView;
+                TTl.SelectedValue = dr1["gid"].ToString();
             }
         }
         

@@ -116,7 +116,7 @@ public partial class Judge : System.Web.UI.Page
             int count = (int)cmd0.ExecuteScalar();
             if (count != 0)
             {//uname exisits                
-                master.AlertError("Judge already existed in Assignment, Please delete assignment first!");
+                master.AlertError("Judge already existed in Assignment, please delete assignment first!");
             }
             else
             {

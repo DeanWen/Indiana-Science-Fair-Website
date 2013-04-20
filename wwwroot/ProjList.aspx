@@ -52,7 +52,7 @@
            <asp:templatefield headertext="Project Name" ItemStyle-Width="400"><itemtemplate><%#Eval("PName") %> </itemtemplate>
            <edititemtemplate>
            <asp:textbox id="textbox1" runat='server' text='<%#Eval("PName") %>'></asp:textbox>
-               <asp:RegularExpressionValidator ID="textbox5Checker" runat="server" ErrorMessage="Invaild, Must be letters or numbers" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z\s]+$" />
+               <asp:RegularExpressionValidator ID="textbox5Checker" runat="server" ErrorMessage="Invaild, Must be letters or numbers" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z''-'\s]{1,40}$" />
            </edititemtemplate>
             </asp:templatefield>
 
@@ -73,8 +73,8 @@
 
             <asp:templatefield headertext="Grade"><itemtemplate><%#Eval("gid") %> </itemtemplate>
            <edititemtemplate>
-           <asp:textbox id="textbox4" runat='server' text='<%#Eval("gid") %>'></asp:textbox>
-               <asp:RegularExpressionValidator ID="textbox4Checker" runat="server" ErrorMessage="Invaild, Must be Numbers" ControlToValidate="textbox4" ValidationExpression="[0-9]{0,2}" />
+                <asp:DropDownList ID="Grade" runat="server" Font-Size="10pt" Height="20pt" >
+                </asp:DropDownList>
            </edititemtemplate>
             </asp:templatefield>
 

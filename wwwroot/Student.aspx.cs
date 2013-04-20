@@ -29,14 +29,29 @@ public partial class _Default : System.Web.UI.Page
         }
         
     }
-
+/*
     protected void getStudentById(object sender, EventArgs e)
     {
-        string studentId = SidTxt.Text;
+        string studentId = SearchTxt.Text;
         string sql = "select * from Student where SID='" + studentId+"'";
         bind(sql);
-    }
+    }*/
+    protected void getStudent(object sender, EventArgs e)
+    {
+        string searchBy = SearchArea.SelectedValue;
+        string value = SearchTxt.Text;
+        if (searchBy == "SID")
+        {
+            string sql = "select * from Student where  SID = '" + value + "'";
+            bind(sql);
+        }
+        else if (searchBy == "PID")
+        {
+            string sql = "select * from Student where PID ='" + value + "'";
+            bind(sql);
+        }
 
+    }
     protected void getAllStudent()
     {
         string sql = "select * from Student";
@@ -113,13 +128,14 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void StudentGrid_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-
+        AdminMaster master = (AdminMaster)Page.Master;
         string sid = StudentGrid.DataKeys[e.RowIndex].Values["SID"].ToString();
         con.Open();
         SqlCommand cmd = new SqlCommand("delete from student where sid='" + sid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         getAllStudent();
+        master.AlertSuccess("Deleted successfully");
     }
     protected void StudentGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
@@ -134,15 +150,61 @@ public partial class _Default : System.Web.UI.Page
         TextBox fn = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox1");
         TextBox mn = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox2");
         TextBox ln = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox3");
-        TextBox pid = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox4");
+        //TextBox pid = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox4");
+        DropDownList aa = (DropDownList)StudentGrid.Rows[e.RowIndex].FindControl("ddlPID");
+        string pid = aa.SelectedItem.Value;
         TextBox school = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox5");
         TextBox age = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox6");
         con.Open();
-        SqlCommand cmd = new SqlCommand("update Student set FName='" + fn.Text + "',MName='" + mn.Text + "',LName='" + ln.Text + "',pid='" + pid.Text + "',school='" + school.Text + "',age='" + age.Text + "' where sid='" + sid + "'", con);
+        SqlCommand cmd = new SqlCommand("update Student set FName='" + fn.Text.Trim() + "',MName='" + mn.Text.Trim() + "',LName='" + ln.Text.Trim() + "',pid='" + pid + "',school='" + school.Text.Trim() + "',age='" + age.Text.Trim() + "' where sid='" + sid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         StudentGrid.EditIndex = -1;
         getAllStudent();
+        AdminMaster master = (AdminMaster)Page.Master;
+        master.AlertSuccess("Update successfully");
 
+    }
+
+    private DataTable RetrievePID()
+    {
+        //fetch the connection string from web.config
+        string connString =
+                WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
+        //SQL statement to fetch entries from products
+        string sql = @"Select PID
+            from PROJECT ";
+        DataTable dtSubCategories = new DataTable();
+        //Open SQL Connection
+        using (SqlConnection conn = new SqlConnection(connString))
+        {
+            conn.Open();
+            //Initialize command object
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                //Fill the result set
+                adapter.Fill(dtSubCategories);
+            }
+        }
+        return dtSubCategories;
+    }
+
+    protected void StudentGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((e.Row.RowState & DataControlRowState.Edit) > 0)
+            {
+
+                DropDownList TTl = (DropDownList)e.Row.FindControl("ddlPID");
+                TTl.DataTextField = "PID";
+                TTl.DataValueField = "PID";
+                TTl.DataSource = RetrievePID();
+                TTl.DataBind();
+                DataRowView dr1 = e.Row.DataItem as DataRowView;
+                TTl.SelectedValue = dr1["PID"].ToString();
+            }
+        }
     }
 }

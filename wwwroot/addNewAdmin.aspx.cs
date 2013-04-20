@@ -22,7 +22,7 @@ public partial class newAdmin : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        if (Session["uname"].ToString() != "10000")
+        if (Session["uname"].ToString().Trim() != "10000")
         {
           Response.Write("<script>alert('No Rights,Please Contact Super Admin');window.location.href='ProjList.aspx'</script>");
         }
@@ -71,9 +71,9 @@ public partial class newAdmin : System.Web.UI.Page
 
                 AdminMaster master = (AdminMaster)Page.Master;
                 //check if the email already exist, email must be unique as this is the username
-                string uname = username.Text;
-                string RT = right.Text;
-                string mail = email.Text;
+                string uname = username.Text.Trim();
+                string RT = right.Text.Trim();
+                string mail = email.Text.Trim();
 
                 var queryCheckUname = "checkUname";
                 using (con)
@@ -156,7 +156,7 @@ public partial class newAdmin : System.Web.UI.Page
         TextBox email = (TextBox)admin.Rows[e.RowIndex].FindControl("textbox2");
 
         con.Open();
-        SqlCommand cmd = new SqlCommand("update account set pwd='" + pwd.Text + "',email='" + email.Text + "' where jid='" + jid + "'", con);
+        SqlCommand cmd = new SqlCommand("update account set pwd='" + pwd.Text.Trim() + "',email='" + email.Text.Trim() + "' where jid='" + jid + "'", con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
         admin.EditIndex = -1;

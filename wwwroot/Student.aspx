@@ -4,10 +4,14 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <asp:Label ID="SidMsg" CssClass="form lable" runat="server">Enter Student ID: </asp:Label>
-    <asp:TextBox ID="SidTxt" OnTextChanged="getStudentById" runat="server"></asp:TextBox>
-    <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getStudentById" />
-    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits numbers ." ControlToValidate="SidTxt" ValidationExpression="[0-9]{1,10}" />
+    <asp:Label ID="SearchMsg" CssClass="form lable" runat="server">Search by: </asp:Label>
+    <asp:DropDownList ID="SearchArea"  runat="server">
+        <asp:ListItem Value="SID">StudentID</asp:ListItem>
+        <asp:ListItem Value="PID">ProjectID</asp:ListItem>
+    </asp:DropDownList>
+    <asp:TextBox ID="SearchTxt" OnTextChanged="getStudent" runat="server"></asp:TextBox>
+    <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getStudent" />
+    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 1-10 bits numbers ." ControlToValidate="SearchTxt" ValidationExpression="[0-9]{1,10}" />
 
    <asp:Panel ID="PnlTable" runat="server">
        <asp:GridView ID="StudentGrid" runat="server" AutoGenerateEditButton="true" 
@@ -15,7 +19,7 @@
             ShowFooter="True" PageSize="20"
            OnPageIndexChanging="PageIndexChanging" AllowPaging="True" PagerSettings-PageButtonCount="10" 
            OnRowCancelingEdit="StudentGrid_RowCancelingEdit" 
-           OnRowDeleting="StudentGrid_RowDeleting" OnRowUpdating="StudentGrid_RowUpdating" OnRowEditing="StudentGrid_RowEditing" DataKeyNames="SID">
+           OnRowDeleting="StudentGrid_RowDeleting" OnRowDataBound="StudentGrid_RowDataBound" OnRowUpdating="StudentGrid_RowUpdating" OnRowEditing="StudentGrid_RowEditing" DataKeyNames="SID">
            <Columns>
                <asp:templatefield headertext="Student ID">
                 <itemtemplate>
@@ -46,8 +50,8 @@
             
             <asp:templatefield headertext="Project ID"><itemtemplate><%#Eval("PId") %> </itemtemplate>
            <edititemtemplate>
-           <asp:textbox id="textbox4" runat='server' Text='<%#Eval("PId") %>'></asp:textbox>
-               <asp:RegularExpressionValidator ID="textbox4Checker" runat="server" ErrorMessage="Invalid input" ControlToValidate="textbox4" ValidationExpression="[0-9]{0,10}" />
+            <asp:DropDownList ID="ddlPID" runat="server" Font-Size="10pt" Height="20pt" >
+            </asp:DropDownList>
            </edititemtemplate>
             </asp:templatefield>
 
