@@ -17,12 +17,14 @@ public partial class _Default : System.Web.UI.Page
     SqlConnection con = new SqlConnection(cs);
     protected void Page_Load(object sender, EventArgs e)
     {
-        getPjByJid();
+        //if (checkJudge(JidTxt.Text) != 0)
+        //getPjByJid();
     }
 
     protected void submitBtnClick(object sender, EventArgs e)
     {
-        getPjByJid();
+        //if(checkJudge(JidTxt.Text)!=0)
+            getPjByJid();
     }
 
     /*    protected void bind()
@@ -48,25 +50,50 @@ public partial class _Default : System.Web.UI.Page
             }
         }
     object sender, EventArgs e*/
+    protected int checkJudge(string j)
+    {
+        AdminMaster master = (AdminMaster)Page.Master;
+        //---------------------------------        
+        SqlCommand cmd0 = new SqlCommand("select count(*) from Judge where  JID ='" + j + "'", con);
+        try
+        {
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            }
+            int count = (int)cmd0.ExecuteScalar();
+            con.Close();
+            if (count == 0)
+            {//uname not exisits                
+                master.AlertError("Judge doesn't exist!");
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+        finally
+        {
+            con.Close();
+        };
+
+    }
+
     protected void getPjByJid()
     {
-        if (!(JidTxt.Text.Trim() == ""))
-        {
-            string judgeId = JidTxt.Text;
-            projDB newPjDb = new projDB(judgeId);
-            //newPjDb.getAllProjByJid();
-            //newPjDb.recommendProjById();
-            List<project> pj= newPjDb.getAllProjByJid();
-            if (pj.Count == 0)
+           // if (!(JidTxt.Text.Trim() == ""))
+         if (checkJudge(JidTxt.Text) != 0)
             {
-                AdminMaster master = (AdminMaster)Page.Master;
-                master.AlertWarning("No Matched Projects");
+                string judgeId = JidTxt.Text;
+                projDB newPjDb = new projDB(judgeId);
+                //newPjDb.getAllProjByJid();
+                //newPjDb.recommendProjById();
+                ProjListGrid.DataSource = newPjDb.getAllProjByJid();
+                ProjListGrid.DataBind();
+                RecProjGrid.DataSource = newPjDb.recommendProjById();
+                RecProjGrid.DataBind();
             }
-            ProjListGrid.DataSource = newPjDb.getAllProjByJid();
-            ProjListGrid.DataBind();
-            RecProjGrid.DataSource = newPjDb.recommendProjById();
-            RecProjGrid.DataBind();
-        }
         
 /*        string sqlAll = "select PID, PName, CID, P.FName, GID, P.DIVISION from PROJLIST P, Judge J where J.JID=" +
             judgeId + "and P.DIVISION = J.DIVISION and (P.CID = J.CategoryA or P.CID = J.CategoryB or P.CID = J.CategoryC or P.CID = J.CategoryD)";
