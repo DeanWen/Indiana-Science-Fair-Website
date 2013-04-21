@@ -141,8 +141,10 @@ public class projDB
                 IEnumerable<project> proj = Projects.OrderByDescending(project => project.Weight);
                 foreach (project pj in proj)
                 {
-                    recPoj.Add(pj);
-//                    Console.WriteLine(pj.Weight);
+                    if (pj.Weight > 0)
+                    {
+                        recPoj.Add(pj);
+                    }
                 }
 /*                int count = 0;
                 while (count < 10 && count < Projects.Count)  //no more than 10 projects can be recommended

@@ -128,7 +128,7 @@ public partial class _Default : System.Web.UI.Page
         string sql1 = "delete from Assignment where aid='" + aid + "'";
         string sql2 = "insert into Availability values ('"+jid+"','"+period+"')";
         string sql3 = "insert into ProjectAvailability values ('" + pid + "','" + period + "')";
-        string sql4 = "update Project set Time = Time + 1 where PID = " + pid;
+        string sql4 = "update Project set Time = Time - 1 where PID = " + pid;
         string sql = sql1 + ";" + sql2 + ";" + sql3 + ";" + sql4;
 
         con.Open();

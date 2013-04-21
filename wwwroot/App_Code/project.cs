@@ -62,7 +62,7 @@ public class project
         }
         if (count == 0)
             weight = 0;
-        string sql = "select PeriodId from ProjectAvailability where PID = " + projId;      
+        //string sql = "select PeriodId from ProjectAvailability where PID = " + projId;      
     }
 
     private void calByCategory(string catA, string catB, string catC, string catD)
