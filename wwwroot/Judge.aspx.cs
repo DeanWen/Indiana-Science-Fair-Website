@@ -239,7 +239,7 @@ public partial class Judge : System.Web.UI.Page
         string connString =
                 WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
         //SQL statement to fetch entries from products
-        string sql = @"Select Division 
+        string sql = @"Select distinct Division 
                 from Grade_Level";
         DataTable dtSubCategories = new DataTable();
         //Open SQL Connection
