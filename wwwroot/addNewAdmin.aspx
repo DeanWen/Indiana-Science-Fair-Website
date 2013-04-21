@@ -17,7 +17,7 @@
                 <asp:Label ID="Label1" runat="server" Width="80px">Password: </asp:Label>
                 <asp:TextBox ID="right"  TextMode="Password"  MaxLength=20 Height="20" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ControlToValidate="right" runat="server" ErrorMessage="Required Field">*Required</asp:RequiredFieldValidator> 
-                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ErrorMessage="Invalid, must be between 4-10 bits letters or numbers ." ControlToValidate="right" ValidationExpression="[a-zA-Z0-9]{4,10}" />
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ErrorMessage="Invalid, must be between 6-10 bits letters or numbers ." ControlToValidate="right" ValidationExpression="[a-zA-Z0-9]{6,10}" />
                 <br />
 
                 <asp:Label ID="Label2" runat="server" Width="80px">Email: </asp:Label>

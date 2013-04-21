@@ -56,10 +56,18 @@ public partial class _Default : System.Web.UI.Page
             projDB newPjDb = new projDB(judgeId);
             //newPjDb.getAllProjByJid();
             //newPjDb.recommendProjById();
+            List < project > pj= newPjDb.getAllProjByJid();
+            if (pj.Count == 0)
+            {
+                AdminMaster master = (AdminMaster)Page.Master;
+                master.AlertWarning("No Matched Projects");
+            }
+
             ProjListGrid.DataSource = newPjDb.getAllProjByJid();
             ProjListGrid.DataBind();
             RecProjGrid.DataSource = newPjDb.recommendProjById();
             RecProjGrid.DataBind();
+
 
         }
         

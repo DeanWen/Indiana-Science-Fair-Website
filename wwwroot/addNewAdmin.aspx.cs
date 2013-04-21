@@ -62,7 +62,9 @@ public partial class newAdmin : System.Web.UI.Page
        
         if (checkMode.Checked == true)
         {
-            Response.Write("<script>alert('You are in Edit Mode')</script>");
+            AdminMaster master = (AdminMaster)Page.Master;
+            //Response.Write("<script>alert('You are in Edit Mode')</script>");
+            master.AlertWarning("You are in Edit Mode!");
         }
         else
         {
