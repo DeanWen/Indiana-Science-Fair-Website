@@ -1,10 +1,16 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for project
+/// Details of a Project
 /// </summary>
 public class project
 {
@@ -20,7 +26,7 @@ public class project
 
 	public project()
 	{
-        weight = 100;
+        weight = 10;   //Initialize the project's weight
 	}
 
     public project(string pid, string pname, string cid, string fname, string gid, string div, int time, List<string> projAvail)
@@ -36,6 +42,7 @@ public class project
         weight = 10;
     }
 
+    //Calculate the project's weight
     public void calculateWeight(string catA, string catB, string catC, string catD, List<string> judgeAvail)
     {
         if (weight != 0)
@@ -52,6 +59,7 @@ public class project
         }
     }
 
+    //Calculate the project's weight by availability 
     private void calByAvailability(List<string> judgeAvail)
     {
         int count = 0;
@@ -61,10 +69,10 @@ public class project
                 count += 1;                
         }
         if (count == 0)
-            weight = 0;
-        //string sql = "select PeriodId from ProjectAvailability where PID = " + projId;      
+            weight = 0;    
     }
 
+    //Calculate the project's weight by category
     private void calByCategory(string catA, string catB, string catC, string catD)
     {
         if (catId == catA)
@@ -79,6 +87,7 @@ public class project
             weight = 0;
     }
 
+    //Calculate the project's weight by judged times
     private void calByTimes(int times)
     {
         if (times < 5)

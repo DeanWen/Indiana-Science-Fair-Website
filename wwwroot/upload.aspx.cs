@@ -1,4 +1,10 @@
-﻿using System;  
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;  
 using System.Data;  
 using System.Data.OleDb;  
 using System.Data.SqlClient;  
@@ -12,13 +18,14 @@ using System.Web.Configuration;
 public partial class upload : System.Web.UI.Page
 {
     static string strcon = "server=edutechservice.com;database=aa_isf_db_dev;uid=isf_db_uname_685219;pwd=isf_db_pwd_685219!";
-    SqlConnection conn = new SqlConnection(strcon);//链接数据库
+    SqlConnection conn = new SqlConnection(strcon);//Link to DB
 
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
 
+    //Upload data
     private DataTable  xsldata(FileUpload fuload,Label lbmsg)
     {
         if(fuload.FileName == "")
@@ -41,7 +48,7 @@ public partial class upload : System.Web.UI.Page
                 File.Delete(Server.MapPath(FileName));
             }
             fuload.SaveAs(Server.MapPath(FileName));
-            //HDR=Yes，这代表第一行是标题，不做为数据使用 ，如果用HDR=NO，则表示第一行不是标题，做为数据来使用。系统默认的是YES
+            //HDR=Yes，ignore the first line as title
             string connstr2003 = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath(FileName) + ";Extended Properties='Excel 8.0;HDR=Yes;IMEX=1;'";
             string connstr2007 = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Server.MapPath(FileName) + ";Extended Properties=\"Excel 12.0;HDR=YES\"";
             OleDbConnection conn;
@@ -63,7 +70,7 @@ public partial class upload : System.Web.UI.Page
             sdr.Close();
             conn.Close();
 
-            //删除服务器里上传的文件                      
+            //delete the existance                      
             if(File.Exists(Server.MapPath(FileName)))
                 {
                     File.Delete(Server.MapPath(FileName));
@@ -114,14 +121,14 @@ public partial class upload : System.Web.UI.Page
                     string CID = bu.Rows[i]["CID"].ToString();
                     string GID = bu.Rows[i]["GID"].ToString();
                     string PNAME = bu.Rows[i]["PNAME"].ToString();
-                    string sql = "insert into Project values('" + PID + "','" + CID + "','" + GID + "','" + PNAME + "')";
+                    string sql = "insert into Project values('" + PID + "','" + CID + "','" + GID + "','" + PNAME + "','0')";
                     SqlCommand comd = new SqlCommand(sql, conn);
                     comd.ExecuteNonQuery();
                     ProjStatus.Text = "successful";
                 }
                 else if (sender == Stubtn)
                 {
-                    string SID = bu.Rows[i]["SID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
+                    string SID = bu.Rows[i]["SID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name" is Excel Name column
                     string FNAME = bu.Rows[i]["FNAME"].ToString();
                     string MNAME = bu.Rows[i]["MNAME"].ToString();
                     string LNAME = bu.Rows[i]["LNAME"].ToString();
@@ -136,7 +143,7 @@ public partial class upload : System.Web.UI.Page
                 }
                 else if (sender == Judgebtn)
                 {
-                    string jid = bu.Rows[i]["JID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name"即为Excel中Name列的表
+                    string jid = bu.Rows[i]["JID"].ToString();//dt.Rows[i]["Name"].ToString(); "Name" is Excel Name column
                     string fn = bu.Rows[i]["FNAME"].ToString();
                     string ln = bu.Rows[i]["LNAME"].ToString();
                     string ca = bu.Rows[i]["CA"].ToString();
@@ -160,7 +167,6 @@ public partial class upload : System.Web.UI.Page
             
             conn.Close();
         }
-
     }
 }
 

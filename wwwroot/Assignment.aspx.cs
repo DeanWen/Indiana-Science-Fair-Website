@@ -1,4 +1,10 @@
-﻿using System;
+/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +31,7 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
+    // Search assignments
     protected void getAssignment(object sender, EventArgs e)
     {
         string searchBy = SearchArea.SelectedValue;
@@ -47,6 +54,7 @@ public partial class _Default : System.Web.UI.Page
        
     }
 
+    // Get alll the assignments
     protected void getAllAssignment()
     {
         string sql = "select * from AssignmentList";
@@ -75,14 +83,12 @@ public partial class _Default : System.Web.UI.Page
 
     protected void PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-
         GridView theGrid = sender as GridView;  // refer to the GridView
         int newPageIndex = 0;
 
         if (-2 == e.NewPageIndex)
         { // when click the "GO" Button
             TextBox txtNewPageIndex = null;
-            //GridViewRow pagerRow = theGrid.Controls[0].Controls[theGrid.Controls[0].Controls.Count - 1] as GridViewRow; // refer to PagerTemplate
             GridViewRow pagerRow = theGrid.BottomPagerRow;
 
             if (null != pagerRow)
@@ -115,11 +121,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Grid1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-
         string aid = Grid1.DataKeys[e.RowIndex].Values["AID"].ToString();
-        //TextBox tperiod = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox1");
-        //TextBox tjid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
-        //TextBox tpid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
 
         string period = Grid1.DataKeys[e.RowIndex].Values["periodID"].ToString(); ;
         string jid = Grid1.DataKeys[e.RowIndex].Values["JudgeID"].ToString(); ;
@@ -132,7 +134,6 @@ public partial class _Default : System.Web.UI.Page
         string sql = sql1 + ";" + sql2 + ";" + sql3 + ";" + sql4;
 
         con.Open();
-        //SqlCommand cmd = new SqlCommand("delete from Assignment where aid='" + aid + "'", con);
         SqlCommand cmd = new SqlCommand(sql, con);
         int result = cmd.ExecuteNonQuery();
         con.Close();
@@ -140,84 +141,10 @@ public partial class _Default : System.Web.UI.Page
         AdminMaster master = (AdminMaster)Page.Master;
         master.AlertSuccess("Delete successfully");
     }
-    /*
-    protected void Grid1_RowEditing(object sender, GridViewEditEventArgs e)
-    {
-        Grid1.EditIndex = e.NewEditIndex;
-        this.Grid1.DataSource = (DataTable)ViewState["dspage"];
-        this.Grid1.DataBind();
-        //getAllAssignment();
-    }
-     
-    protected void Grid1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-    {
-        Grid1.EditIndex = -1;
-        getAllAssignment();
-    }
 
-    protected void Grid1_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-        AdminMaster master = (AdminMaster)Page.Master;
-
-        string aid = Grid1.DataKeys[e.RowIndex].Values["AID"].ToString();
-
-        TextBox jid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox2");
-        TextBox pid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox3");
-        //TextBox periodid = (TextBox)Grid1.Rows[e.RowIndex].FindControl("textbox4");
-        DropDownList aa = (DropDownList)Grid1.Rows[e.RowIndex].FindControl("CA");
-        string periodid = aa.SelectedItem.Value;
-        con.Open();
-        if (checkProject(pid.Text) != 0 && checkJudge(jid.Text) != 0)
-        {
-            SqlCommand cmd = new SqlCommand("update assignment set jid='" + jid.Text + "',pid='" + pid.Text + "',periodID='" + periodid+ "' where aid='" + aid + "'", con);
-            int result = cmd.ExecuteNonQuery();
-            con.Close();
-            Grid1.EditIndex = -1;
-            getAllAssignment();
-            master.AlertSuccess("update successfully!");
-        }
-    }
-    protected int checkJudge(string j)
-    {
-        AdminMaster master = (AdminMaster)Page.Master;
-        //---------------------------------        
-        SqlCommand cmd0 = new SqlCommand("select count(*) from Judge where  JID ='" + j + "'", con);
-        int count = (int)cmd0.ExecuteScalar();
-        if (count == 0)
-        {//uname not exisits                
-            master.AlertError("Judge doesn't exist!");
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-
-    }
-    protected int checkProject(string p)
-    {
-        AdminMaster master = (AdminMaster)Page.Master;
-        //---------------------------------        
-        SqlCommand cmd0 = new SqlCommand("select count(*) from Project where  PID ='" + p + "'", con);
-        int count = (int)cmd0.ExecuteScalar();
-        if (count == 0)
-        {//uname not exisits                
-            master.AlertError("Project doesn't exist!");
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-
-    }
-    */
+    // Print page function
     protected void PrintAllPages(object sender, EventArgs e)
     {
-
-        //Grid1.AllowPaging = false;
-        //this.Grid1.DataSource = (DataTable)ViewState["dspage"];
-        //this.Grid1.DataBind();
 
         GridView printable = new GridView();
         printable.AutoGenerateDeleteButton = false;
@@ -229,11 +156,9 @@ public partial class _Default : System.Web.UI.Page
         StringWriter sw = new StringWriter();
         HtmlTextWriter hw = new HtmlTextWriter(sw);
 
-        //Grid1.RenderControl(hw);
         printable.RenderControl(hw);
 
-        string gridHTML = sw.ToString().Replace("\"", "'")
-            .Replace(System.Environment.NewLine, "");
+        string gridHTML = sw.ToString().Replace("\"", "'").Replace(System.Environment.NewLine, "");
         StringBuilder sb = new StringBuilder();
         sb.Append("<script type = 'text/javascript'>");
         sb.Append("window.onload = new function(){");
@@ -249,57 +174,10 @@ public partial class _Default : System.Web.UI.Page
         sb.Append("</script>");
 
         ClientScript.RegisterStartupScript(this.GetType(), "GridPrint", sb.ToString());
-        //Grid1.AllowPaging = true;
-        //this.Grid1.DataSource = (DataTable)ViewState["dspage"];
-        //this.Grid1.DataBind();
     }
 
     public override void VerifyRenderingInServerForm(Control control)
     {
         return;
     }
-
-    /*private DataTable RetrievePeriod()
-{
-    //fetch the connection string from web.config
-    string connString =
-            WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
-    //SQL statement to fetch entries from products
-    string sql = @"Select PeriodID
-            from period ";
-    DataTable dtSubCategories = new DataTable();
-    //Open SQL Connection
-    using (SqlConnection conn = new SqlConnection(connString))
-    {
-        conn.Open();
-        //Initialize command object
-        using (SqlCommand cmd = new SqlCommand(sql, conn))
-        {
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            //Fill the result set
-            adapter.Fill(dtSubCategories);
-        }
-    }
-    return dtSubCategories;
-}
-
-protected void Grid1_RowDataBound(object sender, GridViewRowEventArgs e)
-{
-    if (e.Row.RowType == DataControlRowType.DataRow)
-    {
-        if ((e.Row.RowState & DataControlRowState.Edit) > 0)
-        {
-
-            DropDownList TTl = (DropDownList)e.Row.FindControl("CA");
-            TTl.DataTextField = "PeriodID";
-            TTl.DataValueField = "PeriodID";
-            TTl.DataSource = RetrievePeriod();
-            TTl.DataBind();
-            DataRowView dr1 = e.Row.DataItem as DataRowView;
-            TTl.SelectedValue = dr1["PeriodID"].ToString();
-        }
-    }
-}
-*/
-
 }

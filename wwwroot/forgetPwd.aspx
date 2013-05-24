@@ -1,3 +1,9 @@
+<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="forgetPwd.aspx.cs" Inherits="forgetPwd" %>
 
 <!DOCTYPE html>
@@ -7,16 +13,13 @@
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 
-<title>
-Forget Password
-</title>
+<title>Forget Password</title>
 
 <!--link rel="stylesheet" href="resources/css/style.css" type="text/css" media="screen" /-->
 <link rel="stylesheet" href="resources/css/forgetPwd.css" type="text/css" media="screen" />
 </head>
 
 <body>
-
 <div id="container">
 	<!-- This line tells where to insert the reusable code -->
 	<div id="main_content">
@@ -34,7 +37,6 @@ Forget Password
 			         </div>
 			         <asp:Label ID="LblMsg1" Font-Size="16px" ForeColor="Orange" Height="20px" 
                             runat="server" ></asp:Label>		
-
 			         <table>
 			            <tr>
 			                <td>
@@ -48,9 +50,7 @@ Forget Password
                                         ErrorMessage="RegularExpressionValidator" BorderStyle="None" ControlToValidate="TxtEm">*Not an Email format</asp:RegularExpressionValidator>
 			                    </div>
 			                </td>
-			            </tr>
-			
-			
+			            </tr>		
 			        </table>
 			        <div id="Div1" style="margin-top: 20px; margin-left: 150px;" >
 		                <asp:Button class="button" ForeColor="White" BackColor="#9e9ec3" Font-Size="12" Font-Bold="true" 
@@ -60,22 +60,15 @@ Forget Password
 			        </asp:Panel> <!--End of the first panel -->
 			        <br /><br />				
 		    </div><!-- end of forgetPwd_form -->
-	    </form>
-
-      
+	    </form>    
 		<div class="clearthis">&nbsp;</div>
 		</div><!-- End of forgetPwd -->
         </div>
 	</div><!-- End of Main Content Area -->
 
-
 	<div class="clearthis">&nbsp;</div>
-
-
 	<!-- This line tells where to insert the reusable general frame code -->
-
 <!-- End of container -->
-
 </body>
 </html>
 

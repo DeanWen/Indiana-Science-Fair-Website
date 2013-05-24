@@ -1,6 +1,11 @@
-﻿<%@ Page Title="Judge" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
-    CodeFile="Judge.aspx.cs" Inherits="Judge" %>
+﻿<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
 
+<%@ Page Title="Judge" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="Judge.aspx.cs" Inherits="Judge" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
@@ -8,9 +13,7 @@
     <asp:Label ID="JidMsg" CssClass="form lable" runat="server">Enter Judge ID: </asp:Label>
     <asp:TextBox ID="JidTxt" OnTextChanged="getJudgeById" runat="server"></asp:TextBox>
     <asp:Button ID="search" class="button"  Visible="true" Text="Search" runat="server" onclick="getJudgeById" />
-    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="JidTxt" ValidationExpression="[a-zA-Z0-9]{4,10}" />
-
-		
+    <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="JidTxt" ValidationExpression="[a-zA-Z0-9]{4,10}" />		
 
     <asp:Panel ID="PnlTable" runat="server">
        <asp:GridView ID="Grid1" runat="server"  AutoGenerateColumns="False" AllowPaging="true" 
@@ -22,9 +25,9 @@
             
             <asp:templatefield headertext="Judge ID">
                 <itemtemplate>
-                    <asp:label id="jid" runat='server' Text='<%#Eval("jid") %>'/>
-                  
-                </itemtemplate></asp:templatefield>
+                    <asp:label id="jid" runat='server' Text='<%#Eval("jid") %>'/>                
+                </itemtemplate>
+            </asp:templatefield>
             
             <asp:templatefield headertext="First Name"><itemtemplate> <%#Eval("FName") %></itemtemplate> 
             <edititemtemplate>
@@ -34,46 +37,41 @@
             </asp:templatefield>
             
             <asp:templatefield headertext="Last Name"><itemtemplate><%#Eval("LName") %> </itemtemplate>
-           <edititemtemplate>
-           <asp:textbox id="textbox2" runat='server' text='<%#Eval("LName") %>'></asp:textbox>
-               <asp:RegularExpressionValidator ID="textbox02Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox2" ValidationExpression="^[a-zA-Z\s]+$" />
-           </edititemtemplate>
+            <edititemtemplate>
+            <asp:textbox id="textbox2" runat='server' text='<%#Eval("LName") %>'></asp:textbox>
+                <asp:RegularExpressionValidator ID="textbox02Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox2" ValidationExpression="^[a-zA-Z\s]+$" />
+            </edititemtemplate>
             </asp:templatefield>
             
             <asp:templatefield headertext="CategoryA"><itemtemplate><%#Eval("CategoryA") %> </itemtemplate>
-           <edititemtemplate>
-
-            <asp:DropDownList ID="CA" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
-                 
-           </edititemtemplate>
+            <edititemtemplate>
+                <asp:DropDownList ID="CA" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>                
+            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="CategoryB"><itemtemplate><%#Eval("CategoryB") %> </itemtemplate>
-           <edititemtemplate>
- 
-               <asp:DropDownList ID="CB" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
-           </edititemtemplate>
+            <edititemtemplate>
+                <asp:DropDownList ID="CB" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
+            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="CategoryC"><itemtemplate><%#Eval("CategoryC") %> </itemtemplate>
-           <edititemtemplate>
- 
-               <asp:DropDownList ID="CC" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
-           </edititemtemplate>
+            <edititemtemplate>
+                <asp:DropDownList ID="CC" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
+            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="CategoryD"><itemtemplate><%#Eval("CategoryD") %> </itemtemplate>
-           <edititemtemplate>
-
-               <asp:DropDownList ID="CD" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
-           </edititemtemplate>
+            <edititemtemplate>
+                <asp:DropDownList ID="CD" runat="server" Font-Size="10pt" Height="20pt" ></asp:DropDownList>
+            </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Division"><itemtemplate><%#Eval("Division") %> </itemtemplate>
-           <edititemtemplate>
-               <asp:DropDownList ID="D" runat="server" Font-Size="10pt" Height="20pt" >
-               </asp:DropDownList>
-           </edititemtemplate>
+            <edititemtemplate>
+                <asp:DropDownList ID="D" runat="server" Font-Size="10pt" Height="20pt" >
+                </asp:DropDownList>
+            </edititemtemplate>
             </asp:templatefield>
             
             </columns>
@@ -105,6 +103,5 @@
                 </table>
             </PagerTemplate>
        </asp:GridView>
-
    </asp:Panel>
 </asp:Content>

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,11 +27,10 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             getAllProj();
-
         }
-
     }
 
+    // Get project by PID
     protected void getProjById(object sender, EventArgs e)
     {
         string projectId = SidTxt.Text;
@@ -33,6 +38,7 @@ public partial class _Default : System.Web.UI.Page
         bind(sql);
     }
 
+    // Get all the projects
     protected void getAllProj()
     {
         string sql = "select * from ProjList";
@@ -41,13 +47,10 @@ public partial class _Default : System.Web.UI.Page
 
     protected void bind(string sql)
     {
-
-        //string sql = "select * from PROJLIST";
         SqlCommand cmd = new SqlCommand(sql, con);
         try
         {
             con.Open();
-
             SqlDataReader reader = cmd.ExecuteReader();
             DataTable dt = new DataTable();
             ViewState["dspage"] = dt;
@@ -138,22 +141,21 @@ public partial class _Default : System.Web.UI.Page
             }
         }
     }
+
     protected void ProjListGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         ProjListGrid.EditIndex = e.NewEditIndex;
         this.ProjListGrid.DataSource = (DataTable)ViewState["dspage"];
         this.ProjListGrid.DataBind();
-        //getAllProj();
     }
+
     protected void ProjListGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         string pid = ProjListGrid.DataKeys[e.RowIndex].Values["PID"].ToString();
         TextBox pn = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox1");
         DropDownList aa = (DropDownList)ProjListGrid.Rows[e.RowIndex].FindControl("CA");
         string cid = aa.SelectedItem.Value;
-        //TextBox cid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox2");
         TextBox fn = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox3");
-        //TextBox gid = (TextBox)ProjListGrid.Rows[e.RowIndex].FindControl("textbox4");
         DropDownList ddlgid = (DropDownList)ProjListGrid.Rows[e.RowIndex].FindControl("Grade");
         string gid = ddlgid.SelectedItem.Value;
 
@@ -167,7 +169,6 @@ public partial class _Default : System.Web.UI.Page
         getAllProj();
         AdminMaster master = (AdminMaster)Page.Master;
         master.AlertSuccess("Update successfully");
-
     }
    
     private DataTable RetrieveSubCategories()
@@ -234,9 +235,7 @@ public partial class _Default : System.Web.UI.Page
                 ddlSubCategories.DataSource = RetrieveSubCategories();
                 ddlSubCategories.DataBind();
                 DataRowView dr = e.Row.DataItem as DataRowView;
-                ddlSubCategories.SelectedValue =
-                             dr["cid"].ToString();
-
+                ddlSubCategories.SelectedValue = dr["cid"].ToString();
                 DropDownList TTl = (DropDownList)e.Row.FindControl("Grade");
                 TTl.DataTextField = "grade";
                 TTl.DataValueField = "grade";

@@ -1,4 +1,10 @@
-﻿<%@ Page Title="Scheduling" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
+﻿<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
+<%@ Page Title="Scheduling" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
     CodeFile="Scheduling.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
@@ -25,16 +31,16 @@
         </table>
         <div class="clear"></div>
     </div>
-    <div class="content-box-content">
 
+    <div class="content-box-content">
         <div class="tab-content default-tab" id="tab1">
             <asp:ObjectDataSource ID="pjList" runat="server" TypeName = "projDB" SelectMethod = "getAllProjByJid" >
             </asp:ObjectDataSource> 
             <asp:Panel ID="PnlTable" runat="server">
                 <asp:GridView ID="ProjListGrid" runat="server" DataDourceID="pjList"
-                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
-                   AllowPaging="True" OnPageIndexChanging="PageIndexChanging" OnSelectedIndexChanged="ProjListGrid_SelectedIndexChanged">
-                   <Columns>
+                    AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging">
+                    <Columns>
                         <asp:BoundField DataField="PID" HeaderText="Project ID">
                         </asp:BoundField>
                         <asp:BoundField DataField="PName" HeaderText="Project Name">
@@ -77,7 +83,7 @@
                             </tr>
                         </table>
                     </PagerTemplate>
-               </asp:GridView>
+                </asp:GridView>
             </asp:Panel>
         </div>
 
@@ -86,9 +92,9 @@
             </asp:ObjectDataSource>
             <asp:Panel ID="Panel1" runat="server">
                 <asp:GridView ID="RecProjGrid" runat="server" 
-                   AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
-                   AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="RecProj_SelectedIndexChanged">
-                   <Columns>
+                    AutoGenerateColumns="False" ShowFooter="True" PageSize="20"
+                    AllowPaging="True" OnPageIndexChanging="PageIndexChanging" AutoGenerateSelectButton="true" OnSelectedIndexChanged="RecProj_SelectedIndexChanged">
+                    <Columns>
                         <asp:BoundField DataField="PID" HeaderText="Project ID">
                         </asp:BoundField>
                         <asp:BoundField DataField="PName" HeaderText="Project Name">
@@ -133,29 +139,8 @@
                             </tr>
                         </table>
                     </PagerTemplate>
-               </asp:GridView>
+                </asp:GridView>
             </asp:Panel>
         </div>
     </div>
-     
-
-<!--
-        <tfoot>
-            <tr>
-                <td colspan="6">
-                    <div class="bulk-actions align-left">
-                        <a class="button" href="#">Sort by</a>
-                        <select name="dropdown">
-                            <option value="option1">Category</option>
-                            <option value="option2">Division</option>
-                            <option value="option3">Project ID</option>
-                        </select>                         
-                    </div>
-                    <div class="pagination"> <a href="#" title="First Page">&laquo; First</a><a href="#" title="Previous Page">&laquo; Previous</a> <a href="#" class="number current" title="1">1</a> <a href="#" class="number" title="2">2</a> <a href="#" class="number" title="3">3</a> <a href="#" class="number" title="4">4</a> <a href="#" title="Next Page">Next &raquo;</a><a href="#" title="Last Page">Last &raquo;</a> </div>
- -->                   <!-- End .pagination -->
-<!--                    <div class="clear"></div>
-                </td>
-            </tr>
-        </tfoot>
-    </table>-->
 </asp:Content>

@@ -1,3 +1,9 @@
+<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
 <%@ Page Title="Add Juge" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
     CodeFile="addNewJudge.aspx.cs" Inherits="addNewJudge" %>
 

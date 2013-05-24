@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,15 +12,15 @@ using System.Data.SqlClient;
 using System.Web.Configuration;
 
 /// <summary>
-/// Summary description for projDB
+/// Functions on Projects
 /// </summary>
 public class projDB
 {
     private SqlConnection con;
     private String cs;
     private String jid;
-    private List<string> judgeAvail = new List<string>();
-    private List<project> Projects = new List<project>();
+    private List<string> judgeAvail = new List<string>();  //Judge's availability
+    private List<project> Projects = new List<project>();  //Projects' list
 
 	public projDB()
 	{
@@ -30,6 +36,7 @@ public class projDB
         }
 	}
 
+    //Initialize a project list for a particular judge
     public projDB(string JudgeId)
     {
         cs = WebConfigurationManager.ConnectionStrings["localConnection"].ConnectionString;
@@ -45,6 +52,7 @@ public class projDB
         }
         string sql = "select PeriodId from Availability where JID = " + jid;
         SqlCommand cmd = new SqlCommand(sql, con);
+        //Find judge's availability
         try
         {
             con.Open();
@@ -68,19 +76,19 @@ public class projDB
         }
     }
 
+    //Return a list of all the projects which match the division and all the category for a judge
     public List<project> getAllProjByJid()
     {
         string sql = "select PID, PName, CID, P.FName, GID, P.DIVISION, Time from PROJLIST P, Judge J where J.JID=" +
             jid + "and P.DIVISION = J.DIVISION and (P.CID = J.CategoryA or P.CID = J.CategoryB or P.CID = J.CategoryC or P.CID = J.CategoryD)";
         SqlCommand cmd = new SqlCommand(sql, con);
-//        List<project> Projects = new List<project>();
         try
         {
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                // collect project's availability
+                // Collect a project's availability
                 List<string> projAvail = new List<string>();
                 string sql1 = "select PeriodId from ProjectAvailability where PId = '"+ (string)reader["PID"]+"'";
                 SqlCommand cmd1 = new SqlCommand(sql1, con);
@@ -91,19 +99,19 @@ public class projDB
                     projAvail.Add(period);
                 }
                 reader1.Close();
+                // Create the project
                 project pj = new project((string)reader["PID"], (string)MyToString(reader["PName"]), (string)MyToString(reader["CID"]), 
                     (string)MyToString(reader["FName"]), (string)MyToString(reader["GID"]), (string)MyToString(reader["DIVISION"]), (int)(reader["Time"]), projAvail);
                 string sql2 = "select count(*) from Assignment where JID = " + jid + " and PID = " + (string)reader["PID"];
                 SqlCommand cmd2 = new SqlCommand(sql2, con);
                 int count = (int)cmd2.ExecuteScalar();
-                if(count == 0)
+                if(count == 0) // The project hasn't been assigned to the judge 
                 {
                     Projects.Add(pj);
                 }                
             }
             reader.Close();
-            return Projects;
-        
+            return Projects;        
         }
         catch (SqlException err)
         {
@@ -117,6 +125,7 @@ public class projDB
         }
     }
 
+    // Recommend projects by calculating the weight
     public List<project> recommendProjById()
     {
         List<project> recPoj = new List<project>();
@@ -137,7 +146,6 @@ public class projDB
                 {
                     p.calculateWeight(catA, catB, catC, catD, judgeAvail);
                 }
-//                Projects.OrderByDescending(project => project.Weight);
                 IEnumerable<project> proj = Projects.OrderByDescending(project => project.Weight);
                 foreach (project pj in proj)
                 {
@@ -146,13 +154,6 @@ public class projDB
                         recPoj.Add(pj);
                     }
                 }
-/*                int count = 0;
-                while (count < 10 && count < Projects.Count)  //no more than 10 projects can be recommended
-                {
-                    recPoj.Add(Projects[count]);
-                    count++;
-                }
- */
             }
             return recPoj;
         }
@@ -167,7 +168,8 @@ public class projDB
             con.Close();
         }
     }
-
+    
+    // Return a string of an object
     private static string MyToString(object o)
     {
         if (o == DBNull.Value || o == null)

@@ -1,3 +1,9 @@
+/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
 using System;
 using System.Collections;
 using System.Configuration;
@@ -19,7 +25,6 @@ public partial class login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //LblMsg.Text = Session["uname"].ToString();
     }
 
     protected void BtnSubmit_Click(object sender, EventArgs e)
@@ -33,8 +38,7 @@ public partial class login : System.Web.UI.Page
             //check if the uname exists, if so, check if matches the pwd
             string uname = TxtEm.Text;
             string pwd = TxtPwd.Text;
-           
-
+          
             var queryCheckUname = "checkUname";
             using (conn)
             {
@@ -46,9 +50,9 @@ public partial class login : System.Web.UI.Page
                     //Process results
                     int count = (int)cmd.ExecuteScalar();
                     if (count != 0)
-                    {//uname exisits
-                     //LblMsg.Text = "Login uname Successful";
-
+                    {
+                        //uname exisits                     
+                        //LblMsg.Text = "Login uname Successful";
                         var queryCheckPwd = "checkPwd";
                         var cmd1 = new SqlCommand(queryCheckPwd, conn);
                         cmd1.CommandType = CommandType.StoredProcedure;
@@ -56,16 +60,16 @@ public partial class login : System.Web.UI.Page
                         cmd1.Parameters.Add("@Para_uname", SqlDbType.VarChar, 10).Value = uname;
                         int thisCount1 = (int)cmd1.ExecuteScalar();
                         if (thisCount1 != 0) 
-                        {//matched
+                        {
+                            //matched
                              System.Web.HttpContext.Current.Session["uname"] = uname;                            
                              Response.Redirect("ProjList.aspx?user=" + uname, true);
-                                conn.Close();
-                                
+                             conn.Close();                              
                         } 
-                        else {
+                        else 
+                        {
                             LblMsg.Text = "Password doesn't match with our database. Please try again.";
-                       }
-
+                        }
                     }
                     else //user doesn't exists, ask to enter again
                     {
@@ -73,22 +77,20 @@ public partial class login : System.Web.UI.Page
                     }
                 }
             }
+        }
+        catch (Exception err)
+        {
 
+            LblMsg.Text = "Cannot submit information now. Please try again later.";
 
         }
-            catch (Exception err)
-            {
-
-                LblMsg.Text = "Cannot submit information now. Please try again later.";
-
-            }
-            finally //must make sure the connection is properly closed
-            { //the finally block will always run whether there is an error or not
-                conn.Close();
-            }
+        finally //must make sure the connection is properly closed
+        { //the finally block will always run whether there is an error or not
+            conn.Close();
+        }
     }
+
     protected void TxtEm_TextChanged(object sender, EventArgs e)
     {
-
     }
 }

@@ -1,4 +1,10 @@
-﻿<%@ Page Title="Assignment" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" EnableEventValidation ="false"
+﻿<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
+<%@ Page Title="Assignment" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true" EnableEventValidation ="false"
     CodeFile="Assignment.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
@@ -68,32 +74,31 @@
             </columns>
 
            <PagerTemplate>
-                            <table align="right" bgcolor="#e9e9e9" width="100%">
-                                <tr>
-                                    <td style="text-align: right">
-                                        Page <b><asp:Label ID="lblPageIndex" runat="server" Text="<%#((GridView)Container.Parent.Parent).PageIndex + 1 %>"></asp:Label></b>
-                                        of <b><asp:Label ID="lblPageCount" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageCount %>"></asp:Label></b>
-                                        <asp:LinkButton ID="btnFirst" runat="server" CausesValidation="False" CommandArgument="First"
-                                            CommandName="Page" Enabled="<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
-                                            Text="First  "></asp:LinkButton>
-                                        <asp:LinkButton ID="btnPrev" runat="server" CausesValidation="False" CommandArgument="Prev"
-                                            CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
-                                            Text="<< Previous  "></asp:LinkButton>
-                                        <asp:LinkButton ID="btnNext" runat="server" CausesValidation="False" CommandArgument="Next"
-                                            CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
-                                            Text="  Next >>"></asp:LinkButton>
-                                        <asp:LinkButton ID="btnLast" runat="server" CausesValidation="False" CommandArgument="Last"
-                                            CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
-                                            Text="  Last"></asp:LinkButton>
-                                        <asp:TextBox ID="txtNewPageIndex" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageIndex + 1%>"
-                                            Width="20px"></asp:TextBox>
-                                        <asp:LinkButton ID="btnGo" runat="server" CausesValidation="false" CommandArgument="-1"
-                                            CommandName="Page" Text="GO"></asp:LinkButton>
-                                    </td>
-                                </tr>
-                            </table>
-                        </PagerTemplate>
+                <table align="right" bgcolor="#e9e9e9" width="100%">
+                    <tr>
+                        <td style="text-align: right">
+                            Page <b><asp:Label ID="lblPageIndex" runat="server" Text="<%#((GridView)Container.Parent.Parent).PageIndex + 1 %>"></asp:Label></b>
+                            of <b><asp:Label ID="lblPageCount" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageCount %>"></asp:Label></b>
+                            <asp:LinkButton ID="btnFirst" runat="server" CausesValidation="False" CommandArgument="First"
+                                CommandName="Page" Enabled="<%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                Text="First  "></asp:LinkButton>
+                            <asp:LinkButton ID="btnPrev" runat="server" CausesValidation="False" CommandArgument="Prev"
+                                CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != 0 %>"
+                                Text="<< Previous  "></asp:LinkButton>
+                            <asp:LinkButton ID="btnNext" runat="server" CausesValidation="False" CommandArgument="Next"
+                                CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                Text="  Next >>"></asp:LinkButton>
+                            <asp:LinkButton ID="btnLast" runat="server" CausesValidation="False" CommandArgument="Last"
+                                CommandName="Page" Enabled=" <%# ((GridView)Container.NamingContainer).PageIndex != ((GridView)Container.NamingContainer).PageCount - 1 %>"
+                                Text="  Last"></asp:LinkButton>
+                            <asp:TextBox ID="txtNewPageIndex" runat="server" Text="<%# ((GridView)Container.Parent.Parent).PageIndex + 1%>"
+                                Width="20px"></asp:TextBox>
+                            <asp:LinkButton ID="btnGo" runat="server" CausesValidation="false" CommandArgument="-1"
+                                CommandName="Page" Text="GO"></asp:LinkButton>
+                        </td>
+                    </tr>
+                </table>
+            </PagerTemplate>
        </asp:GridView>
-
    </asp:Panel>
 </asp:Content>

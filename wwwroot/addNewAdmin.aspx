@@ -1,4 +1,10 @@
-﻿<%@ Page Title="addNewAdmin" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
+﻿<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
+<%@ Page Title="addNewAdmin" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
     CodeFile="addNewAdmin.aspx.cs" Inherits="newAdmin" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">

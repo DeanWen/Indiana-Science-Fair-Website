@@ -1,3 +1,9 @@
+<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminMaster.master.cs" Inherits="AdminMaster" %>
 
 <!DOCTYPE html>
@@ -52,20 +58,15 @@
                     <li > <a id="A"  runat="server" href="Assignment.aspx" class="nav-top-item no-submenu">Assignment</a></li>                   
               </ul>
                 <!-- End #main-nav -->
-
-
             </div>
         </div> 
         <!-- End #sidebar -->
         <div id="main-content">
-            <!-- Main Content Section with everything -->
-            
+           <!-- Main Content Section with everything --            
            <!-- Page Head -->
             <h2>Admininstrator Dashboard</h2>
             <ul class="shortcut-buttons-set">
-                <li>
-               
-                <a class="shortcut-button" href="Scheduling.aspx"><span> <img src="resources/images/icons/clock_48.png" alt="icon" /><br />
+                <li><a class="shortcut-button" href="Scheduling.aspx"><span> <img src="resources/images/icons/clock_48.png" alt="icon" /><br />
                     Scheduling </span></a></li>
                 <li><a class="shortcut-button" href="addNewJudge.aspx"><span> <img src="resources/images/icons/pencil_48.png" alt="icon" /><br />
                     Add Judge</span></a></li>

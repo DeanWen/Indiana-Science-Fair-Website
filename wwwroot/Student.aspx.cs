@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -29,13 +35,8 @@ public partial class _Default : System.Web.UI.Page
         }
         
     }
-/*
-    protected void getStudentById(object sender, EventArgs e)
-    {
-        string studentId = SearchTxt.Text;
-        string sql = "select * from Student where SID='" + studentId+"'";
-        bind(sql);
-    }*/
+
+    //Search student by SID or PID
     protected void getStudent(object sender, EventArgs e)
     {
         string searchBy = SearchArea.SelectedValue;
@@ -52,6 +53,8 @@ public partial class _Default : System.Web.UI.Page
         }
 
     }
+    
+    //Get all the student
     protected void getAllStudent()
     {
         string sql = "select * from Student";
@@ -60,7 +63,6 @@ public partial class _Default : System.Web.UI.Page
 
     public void bind(string sql)
     {
-//        string sql = "select * from student";
         SqlCommand cmd = new SqlCommand(sql, con);
         try
         {
@@ -113,7 +115,6 @@ public partial class _Default : System.Web.UI.Page
         // specify the NewPageIndex
         theGrid.PageIndex = newPageIndex;
         getAllStudent();
-
         // rebind the control
         // in this case of retrieving the data using the xxxDataSoucr control,
         // just do nothing, because the asp.net engine binds the data automatically
@@ -137,20 +138,20 @@ public partial class _Default : System.Web.UI.Page
         getAllStudent();
         master.AlertSuccess("Deleted successfully");
     }
+
     protected void StudentGrid_RowEditing(object sender, GridViewEditEventArgs e)
     {
         StudentGrid.EditIndex = e.NewEditIndex;
         this.StudentGrid.DataSource = (DataTable)ViewState["dspage"];
         this.StudentGrid.DataBind();
-        //getAllStudent();
     }
+
     protected void StudentGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         string sid = StudentGrid.DataKeys[e.RowIndex].Values["SID"].ToString();
         TextBox fn = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox1");
         TextBox mn = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox2");
         TextBox ln = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox3");
-        //TextBox pid = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox4");
         DropDownList aa = (DropDownList)StudentGrid.Rows[e.RowIndex].FindControl("ddlPID");
         string pid = aa.SelectedItem.Value;
         TextBox school = (TextBox)StudentGrid.Rows[e.RowIndex].FindControl("textbox5");
@@ -163,7 +164,6 @@ public partial class _Default : System.Web.UI.Page
         getAllStudent();
         AdminMaster master = (AdminMaster)Page.Master;
         master.AlertSuccess("Update successfully");
-
     }
 
     private DataTable RetrievePID()

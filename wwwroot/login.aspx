@@ -1,3 +1,9 @@
+<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
+
 <%@ Page Title="Home Page" Language="C#" AutoEventWireup="true" EnableSessionState="True"
     CodeFile="login.aspx.cs" Inherits="login" %>
 
@@ -52,8 +58,7 @@
                             <td><asp:Label runat="server"></asp:Label></td>
                             <td>                                
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TxtEm" ErrorMessage="Required Field" Display="Dynamic">*Username Required</asp:RequiredFieldValidator>
-                                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="TxtEm" ValidationExpression="[a-zA-Z0-9]{4,10}" />                             
-                            
+                                <asp:RegularExpressionValidator ID="checkuname" runat="server" ErrorMessage="Incorrect, must be between 4-10 bits letters or numbers ." ControlToValidate="TxtEm" ValidationExpression="[a-zA-Z0-9]{4,10}" />                                                        
                             </td>
                         </tr>
                         <tr>
@@ -73,13 +78,6 @@
                                 <asp:RegularExpressionValidator ID="checkPWD" runat="server"  ErrorMessage="Incorrect, must be between 6-10 bits letters or numbers ." ControlToValidate="TxtPwd" ValidationExpression="[a-zA-Z0-9]{6,10}" />                                                   
                             </td>
                         </tr>
-                        <!-- 
-                        <tr>
-                            <td><asp:Label runat="server"></asp:Label></td>
-                            <td>
-                                <asp:CheckBox  runat="server" Text="Remember me" TextAlign=Right/> 
-                            </td>
-                        </tr>    -->
                          <tr>
                             <td><asp:Label runat="server"></asp:Label></td>
                             <td>                                  

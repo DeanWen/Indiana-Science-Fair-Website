@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,54 +23,25 @@ public partial class _Default : System.Web.UI.Page
     SqlConnection con = new SqlConnection(cs);
     protected void Page_Load(object sender, EventArgs e)
     {
-        //if (checkJudge(JidTxt.Text) != 0)
-        //getPjByJid();
     }
 
     protected void submitBtnClick(object sender, EventArgs e)
     {
-        //if(checkJudge(JidTxt.Text)!=0)
+        if (checkJudge(JidTxt.Text) != 0)
             getPjByJid();
     }
 
-    /*    protected void bind()
-        {
-            string judgeId = JidTxt.Text;
-            string sql = "select PID, PName, CID, P.FName, GID, P.DIVISION from PROJLIST P";
-            //       , JUDGE J where J.JID=10000 and (P.CID = J.CategoryA or P.CID = J.CategoryB or P.CID = J.CategoryC or P.CID = J.CategoryD)  
-
-            SqlCommand cmd = new SqlCommand(sql, con);
-            try
-            {
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-                ProjListGrid.DataSource = dt;
-                ProjListGrid.DataBind();
-            
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
-    object sender, EventArgs e*/
+    // Check if the judge exists
     protected int checkJudge(string j)
     {
         AdminMaster master = (AdminMaster)Page.Master;
-        //---------------------------------        
-        SqlCommand cmd0 = new SqlCommand("select count(*) from Judge where  JID ='" + j + "'", con);
-        try
+	    try
         {
-            if (con.State != ConnectionState.Open)
-            {
-                con.Open();
-            }
+            con.Open();       
+            SqlCommand cmd0 = new SqlCommand("select count(*) from Judge where  JID ='" + j + "'", con);
             int count = (int)cmd0.ExecuteScalar();
-            con.Close();
-            if (count == 0)
-            {//uname not exisits                
+            if (count == 0)  //uname not exisits  
+            {                              
                 master.AlertError("Judge doesn't exist!");
                 return 0;
             }
@@ -76,71 +53,26 @@ public partial class _Default : System.Web.UI.Page
         finally
         {
             con.Close();
-        };
-
+        }
     }
 
+    // Get projects by JID
     protected void getPjByJid()
     {
-           // if (!(JidTxt.Text.Trim() == ""))
-         if (checkJudge(JidTxt.Text) != 0)
-            {
-                string judgeId = JidTxt.Text;
-                projDB newPjDb = new projDB(judgeId);
-                //newPjDb.getAllProjByJid();
-                //newPjDb.recommendProjById();
-                List<project> pj = newPjDb.getAllProjByJid();
-                if (pj.Count == 0)
-                {
-                    AdminMaster master = (AdminMaster)Page.Master;
-                    master.AlertWarning("No Project Matched");
-                }
-                ProjListGrid.DataSource = pj;// newPjDb.getAllProjByJid();
-                ProjListGrid.DataBind();
-                RecProjGrid.DataSource = pj;// newPjDb.recommendProjById();
-                RecProjGrid.DataBind();
-
-            }
-        
-/*        string sqlAll = "select PID, PName, CID, P.FName, GID, P.DIVISION from PROJLIST P, Judge J where J.JID=" +
-            judgeId + "and P.DIVISION = J.DIVISION and (P.CID = J.CategoryA or P.CID = J.CategoryB or P.CID = J.CategoryC or P.CID = J.CategoryD)";
-
-        SqlCommand cmd = new SqlCommand(sqlAll, con);
-        try
+        string judgeId = JidTxt.Text;
+        projDB newPjDb = new projDB(judgeId);
+        List<project> pj = newPjDb.getAllProjByJid();
+        if (pj.Count == 0)
         {
-            con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(reader);
-            ProjListGrid.DataSource = dt;
-            ProjListGrid.DataBind();        
-            Recommend(con, dt, judgeId);
-            
+            AdminMaster master = (AdminMaster)Page.Master;
+            master.AlertWarning("No Project Matched");
         }
-        finally
-        {
-            con.Close();
-        };*/
+        ProjListGrid.DataSource = pj;
+        ProjListGrid.DataBind();
+        RecProjGrid.DataSource = newPjDb.recommendProjById();
+        RecProjGrid.DataBind();
     }
-/*
-    protected void Recommend(SqlConnection con, DataTable d, string jid)
-    {
-        string sqlRec = "select PID, PName, CID, P.FName, GID, P.DIVISION from PROJLIST P, Judge J where J.JID=" +
-            jid + "and P.DIVISION = J.DIVISION and P.CID = J.CategoryA";
-        SqlCommand cmd1 = new SqlCommand(sqlRec, con);
-        SqlDataReader reader = cmd1.ExecuteReader();
-        DataTable recTable = new DataTable();
-        recTable.Load(reader);
-        RecProj.DataSource = recTable;
-        RecProj.DataBind();
- */
-/*
-        projDB projJid = new projDB();
-        checkAvailability();
-        sortByWeight();
 
-    }
-  */ 
     protected void PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         GridView theGrid = sender as GridView;  // refer to the GridView
@@ -176,35 +108,12 @@ public partial class _Default : System.Web.UI.Page
         getPjByJid();
     }
 
-    protected void ProjListGrid_SelectedIndexChanged(object sender, EventArgs e)
-    {
-/*     
-        string pid = ProjListGrid.SelectedRow.Cells[1].Text;
-        string jid = JidTxt.Text;
-        string sql = "insert into assignment values ('n/a','" + jid + "','" + pid + "','A')";
-        try
-        {
-            con.Open();
-            SqlCommand cmd1 = new SqlCommand(sql, con);
-            cmd1.ExecuteNonQuery();
-        }
-        finally
-        {
-            Response.Write("<script>alert('Added successful!');</script>");
-            con.Close();
-        }
- 
- */
-        
-    }
-
     protected void RecProj_SelectedIndexChanged(object sender, EventArgs e)
     {
         string pid = RecProjGrid.SelectedRow.Cells[1].Text;
         string jid = JidTxt.Text;
         List<string> availPeriod = new List<string>();
         int count = 0;
-//        string sql = "insert into assignment values ('n/a','" + jid + "','" + pid + "','A')";
         try
         {
             con.Open();
@@ -221,12 +130,11 @@ public partial class _Default : System.Web.UI.Page
             int randomPeriod = ran.Next(count - 1);
             string period = availPeriod[randomPeriod];
             string sql1 = "insert into Assignment values ('n/a','" + jid + "','" + pid + "','" + period + "')";
-            string sql2 = "delete from Availability where PeriodId = '" + period + "'";
-            string sql3 = "delete from ProjectAvailability where PeriodId = '" + period + "'";
+            string sql2 = "delete from Availability where PeriodId = '" + period + "' and JID = '" + jid + "'";
+            string sql3 = "delete from ProjectAvailability where PeriodId = '" + period + "'and PID = '" + pid + "'";
             string sql4= "update Project set Time = Time + 1 where PID = " + pid;
             string sql = sql1 + ";" + sql2 + ";" + sql3 + ";" + sql4;
 
-            //            int count = (int)cmd.ExecuteScalar();
             SqlCommand cmd1 = new SqlCommand(sql, con);
             cmd1.ExecuteNonQuery();
             getPjByJid();

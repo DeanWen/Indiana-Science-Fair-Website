@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright by Indiana University Purdue University Indianapolis
+ * School of Computer & Informatic Science
+ * Dian Wen & Rui Wang
+ * 2013 Jan-May
+ */
+
+using System;
 using System.Collections;
 using System.Configuration;
 using System.Data;
@@ -16,8 +22,7 @@ using System.Web.Configuration;
 using System.Net.Mail;
 
 public partial class forgetPwd :System.Web.UI.Page
-{
-   
+{   
     string cs;
     SqlConnection con;
     protected void Page_Load(object sender, EventArgs e)
@@ -28,8 +33,7 @@ public partial class forgetPwd :System.Web.UI.Page
     
     protected void BtnEnter_Click(object sender, EventArgs e)
     {      
-        //get the user name and see if it exists in the database
-     
+        //get the user name and see if it exists in the database    
         //always use try/catch for db connections
        try
         {
@@ -41,9 +45,6 @@ public partial class forgetPwd :System.Web.UI.Page
             int count = (int)cmd.ExecuteScalar();
             if (count != 0)
             {
-                //mail.From = new MailAddress("admin@gmail.com");  
-                //email exists, go to the next page
-
                 string sql2 = "select pwd from account where email = '" + tmpName + "'";
                 SqlCommand cmd2 = new SqlCommand(sql2, con);
                 SqlDataReader reader = cmd2.ExecuteReader();
@@ -55,11 +56,9 @@ public partial class forgetPwd :System.Web.UI.Page
 
                 mail.Subject = "Forget password";
                 mail.Body = result;
-                //mail.Body = "Sending email from ISF";
 
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
-                //smtp.Host = "smtp.gmail.com" ;
 
                 smtp.EnableSsl = false;
                 smtp.Port = 26;
@@ -67,7 +66,8 @@ public partial class forgetPwd :System.Web.UI.Page
                 smtp.Send(mail);
                 LblMsg1.Text = "An Email has been sent to " + TxtEm.Text;
             }
-            else {
+            else 
+            {
                 LblMsg1.Text = "Email incorrect. Please try again.";
                 con.Close();           
             }

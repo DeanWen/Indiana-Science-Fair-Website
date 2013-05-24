@@ -1,6 +1,11 @@
-﻿<%@ Page Title="ProjectList" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
-    CodeFile="ProjList.aspx.cs" Inherits="_Default" %>
+﻿<!-- Copyright by Indiana University Purdue University Indianapolis
+  -- School of Computer & Informatic Science
+  -- Dian Wen & Rui Wang
+  -- 2013 Jan-May
+-->
 
+<%@ Page Title="ProjectList" Language="C#" MasterPageFile="~/AdminMaster.master" AutoEventWireup="true"
+    CodeFile="ProjList.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
@@ -50,32 +55,32 @@
             </asp:templatefield>
 
            <asp:templatefield headertext="Project Name" ItemStyle-Width="400"><itemtemplate><%#Eval("PName") %> </itemtemplate>
-           <edititemtemplate>
-           <asp:textbox id="textbox1" runat='server' text='<%#Eval("PName") %>'></asp:textbox>
-               <asp:RegularExpressionValidator ID="textbox5Checker" runat="server" ErrorMessage="Invaild, Must be letters or numbers" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z''-'\s]{1,40}$" />
-           </edititemtemplate>
-            </asp:templatefield>
+               <edititemtemplate>
+               <asp:textbox id="textbox1" runat='server' text='<%#Eval("PName") %>'></asp:textbox>
+                   <asp:RegularExpressionValidator ID="textbox5Checker" runat="server" ErrorMessage="Invaild, Must be letters or numbers" ControlToValidate="textbox1" ValidationExpression="^[a-zA-Z''-'\s]{1,40}$" />
+               </edititemtemplate>
+           </asp:templatefield>
 
 
            <asp:templatefield headertext="Category"><itemtemplate><%#Eval("cid") %> </itemtemplate>
-           <edititemtemplate>
-                <asp:DropDownList ID="CA" runat="server" Font-Size="10pt" Height="20pt" >
-                 </asp:DropDownList>
-            </edititemtemplate>
+               <edititemtemplate>
+                    <asp:DropDownList ID="CA" runat="server" Font-Size="10pt" Height="20pt" >
+                     </asp:DropDownList>
+                </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Student Name"><itemtemplate> <%#Eval("FName") %></itemtemplate> 
-            <edititemtemplate>
-            <asp:textbox id="textbox3" runat='server' text='<%#Eval("FName") %>'></asp:textbox>
-                <asp:RegularExpressionValidator ID="textbox3Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox3" ValidationExpression="^[a-zA-Z\s]+$" />
-            </edititemtemplate>
+                <edititemtemplate>
+                <asp:textbox id="textbox3" runat='server' text='<%#Eval("FName") %>'></asp:textbox>
+                    <asp:RegularExpressionValidator ID="textbox3Checker" runat="server" ErrorMessage="Invaild input" ControlToValidate="textbox3" ValidationExpression="^[a-zA-Z\s]+$" />
+                </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Grade"><itemtemplate><%#Eval("gid") %> </itemtemplate>
-           <edititemtemplate>
-                <asp:DropDownList ID="Grade" runat="server" Font-Size="10pt" Height="20pt" >
-                </asp:DropDownList>
-           </edititemtemplate>
+                <edititemtemplate>
+                    <asp:DropDownList ID="Grade" runat="server" Font-Size="10pt" Height="20pt" >
+                    </asp:DropDownList>
+                </edititemtemplate>
             </asp:templatefield>
 
             <asp:templatefield headertext="Division"><itemtemplate><%#Eval("Division") %> </itemtemplate>
